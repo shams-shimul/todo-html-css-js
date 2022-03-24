@@ -5,10 +5,13 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
   e.preventDefault();
   const todoVal = document.getElementById("todo").value;
   if (todoVal) {
-    states.push({ valueBeforeEdit: todoVal, alteredValue: todoVal, editModeOn: false });
+    states.push({ valueBeforeEdit: todoVal, alteredValue: todoVal, status: false, editModeOn: false });
     const newElem = document.createElement("article");
     newElem.setAttribute("id", `item-${itemCount}`);
     newElem.innerHTML = `
+    <span>
+      <i class="${states[itemCount].status ? 'fa solid fa-circle-check' : 'fa-regular fa-circle'} clickable" title="Click to mark as ${states[itemCount].status ? 'undone' : 'done'}" onclick="toggleStatus(this)"></i>
+    </span>
     <span class="item-value">${todoVal}</span>
     <span class="action-icons set-1">
       <i class="fa-regular fa-pen-to-square clickable" title="Edit" onclick="editItem(this)"></i>
@@ -53,6 +56,20 @@ const cancelEdit = (thisNode) => {
   const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
   thisNode.parentElement.parentElement.querySelector(".item-value").innerText = states[itemPos].valueBeforeEdit;
   toggleEditAndIcons(thisNode, itemPos);
+}
+
+const toggleStatus = (thisNode) => {
+  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
+  if (states[itemPos].status) {
+    thisNode.setAttribute("class", "fa-regular fa-circle clickable");
+    thisNode.parentElement.nextElementSibling.style.textDecoration = "none";
+    thisNode.parentElement.nextElementSibling.style.color = "initial";
+  } else {
+    thisNode.setAttribute("class", "fa-solid fa-circle-check clickable");
+    thisNode.parentElement.nextElementSibling.style.textDecoration = "line-through";
+    thisNode.parentElement.nextElementSibling.style.color = "gray";
+  }
+  states[itemPos].status = !states[itemPos].status;
 }
 
 const toggleEditAndIcons = (thisNode, itemPos) => {

@@ -18,8 +18,8 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
       <i class="fa-solid fa-trash-can clickable" title="Delete" onclick="deleteItem(this)"></i>
     </span>
     <span class="action-icons set-2">
-      <i class="fa-solid fa-check clickable" title="Save" onclick="saveEditItem(this)"></i>
-      <i class="fa-solid fa-xmark clickable" title="Save" onclick="cancelEdit(this)"></i>
+      <i class="fa-solid fa-check clickable" title="Save"></i>
+      <i class="fa-solid fa-xmark clickable" title="Save"></i>
     </span>
     `;
     document.querySelector("section.todo-items").appendChild(newElem);
@@ -36,6 +36,25 @@ const editItem = (thisNode) => {
   const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
   states[itemPos].valueBeforeEdit = thisNode.parentElement.parentElement.querySelector(".item-value").innerText;
   toggleEditAndIcons(thisNode, itemPos);
+  thisNode.parentElement.previousElementSibling.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      saveEdit(thisNode, itemPos);
+      toggleEditAndIcons(thisNode, itemPos);
+    }
+    if (e.key === "Escape") {
+      cancelEdit(thisNode, itemPos);
+      toggleEditAndIcons(thisNode, itemPos);
+    }
+  })
+  thisNode.parentElement.nextElementSibling.querySelector("i:first-child").addEventListener("click", () => {
+    saveEdit(thisNode, itemPos);
+    toggleEditAndIcons(thisNode, itemPos);
+  })
+  thisNode.parentElement.nextElementSibling.querySelector("i:last-child").addEventListener("click", () => {
+    cancelEdit(thisNode, itemPos);
+    toggleEditAndIcons(thisNode, itemPos);
+  })
 }
 
 const deleteItem = (thisNode) => {
@@ -45,17 +64,13 @@ const deleteItem = (thisNode) => {
   toggleAlert("Item Deleted");
 }
 
-const saveEditItem = (thisNode) => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
+const saveEdit = (thisNode, itemPos) => {
   states[itemPos].alteredValue = thisNode.parentElement.parentElement.querySelector(".item-value").innerText;
-  toggleEditAndIcons(thisNode, itemPos);
   states[itemPos].alteredValue !== states[itemPos].valueBeforeEdit && toggleAlert("Changes Saved")
 }
 
-const cancelEdit = (thisNode) => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
+const cancelEdit = (thisNode, itemPos) => {
   thisNode.parentElement.parentElement.querySelector(".item-value").innerText = states[itemPos].valueBeforeEdit;
-  toggleEditAndIcons(thisNode, itemPos);
 }
 
 const toggleStatus = (thisNode) => {
@@ -76,19 +91,14 @@ const toggleEditAndIcons = (thisNode, itemPos) => {
   if (states[itemPos].editModeOn) {
     thisNode.parentElement.parentElement.querySelector(".item-value").setAttribute("contentEditable", "false");
     thisNode.parentElement.parentElement.querySelector(".item-value").classList.remove("editable");
-    thisNode.parentElement.style.display = "none";
-    thisNode.parentElement.previousElementSibling.style.display = "flex";
+    thisNode.parentElement.style.display = "flex";
+    thisNode.parentElement.nextElementSibling.style.display = "none";
   } else {
     thisNode.parentElement.parentElement.querySelector(".item-value").setAttribute("contentEditable", "true");
     thisNode.parentElement.parentElement.querySelector(".item-value").focus();
     thisNode.parentElement.parentElement.querySelector(".item-value").classList.add("editable");
-    if (thisNode.parentElement.previousElementSibling.classList.contains("action-icons")) {
-      thisNode.parentElement.style.display = "none";
-      thisNode.parentElement.previousElementSibling.style.display = "flex";
-    } else {
-      thisNode.parentElement.style.display = "none";
-      thisNode.parentElement.nextElementSibling.style.display = "flex";
-    }
+    thisNode.parentElement.style.display = "none";
+    thisNode.parentElement.nextElementSibling.style.display = "flex";
   }
   states[itemPos].editModeOn = !states[itemPos].editModeOn;
 }
@@ -102,3 +112,5 @@ const toggleAlert = (label) => {
     document.querySelector(".backdrop").style.visibility = "hidden";
   }, 2000);
 }
+
+document.getElementById("this-year").innerText = new Date().getFullYear();

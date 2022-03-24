@@ -15,6 +15,7 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
     `;
     document.querySelector("section.todo-items").appendChild(newElem);
     document.getElementById("todo").value = "";
+    toggleAlert("Item Added")
   } else {
     alert("Empty inputs not allowed");
   }
@@ -29,24 +30,34 @@ const editItem = (thisNode) => {
       e.preventDefault();
       e.target.removeAttribute("contentEditable");
       e.target.classList.remove("editable");
-      e.target.nextElementSibling.style.display = "initial"
-      e.target.nextElementSibling.nextElementSibling.style.display = "none"
+      e.target.nextElementSibling.style.display = "initial";
+      e.target.nextElementSibling.nextElementSibling.style.display = "none";
+      toggleAlert("Changes Saved");
     }
   })
   thisNode.parentElement.style.display = "none";
-  thisNode.parentElement.nextElementSibling.style.display = "block";
-  thisNode.parentElement.nextElementSibling.addEventListener("hover", () => {
-    alert()
-  });
+  thisNode.parentElement.nextElementSibling.style.display = "flex";
 }
 
 const deleteItem = (thisNode) => {
   thisNode.parentElement.parentElement.remove();
+  toggleAlert("Item Deleted")
 }
 
 const saveEditItem = (thisNode) => {
   thisNode.parentElement.parentElement.querySelector(".item-value").removeAttribute("contentEditable");
   thisNode.parentElement.parentElement.querySelector(".item-value").classList.remove("editable");
   thisNode.parentElement.style.display = "none";
-  thisNode.parentElement.previousElementSibling.style.display = "block";
+  thisNode.parentElement.previousElementSibling.style.display = "flex";
+  toggleAlert("Changes Saved")
+}
+
+const toggleAlert = (label) => {
+  document.querySelector(".alert").innerText = label;
+  document.querySelector(".alert").style.top = "35px";
+  document.querySelector(".backdrop").style.visibility = "visible";
+  setTimeout(() => {
+    document.querySelector(".alert").style.top = "-25%";
+    document.querySelector(".backdrop").style.visibility = "hidden";
+  }, 2000);
 }

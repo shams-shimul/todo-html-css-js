@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 
 * {
 	padding: 0;
@@ -17,21 +17,24 @@ body {
 	cursor: pointer;
 }
 
+.editable {
+  border-bottom: 1px dashed black;
+}
+
 .container {
 	margin: 100px auto 20px;
 	width: 30vw;
-	background: rgba(255, 255, 255, 0.2);
+	background: rgba(255, 255, 255, 0.5);
 	border-radius: 16px;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(5px);
 	-webkit-backdrop-filter: blur(5px);
 	border: 1px solid rgba(255, 255, 255, 0.3);
-	overflow: hidden;
 }
 
 .todo-input {
 	padding: 20px;
-	background: rgba(255, 255, 255, 0.2);
+	background: rgba(255, 255, 255, 0.5);
 	border-radius: 16px;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(5px);
@@ -52,6 +55,11 @@ body {
 	border-radius: 5px;
 }
 
+#todo-input-form input:focus {
+	border: none;
+  outline: none;
+}
+
 .btn-submit {
 	padding: 10px 15px;
 	border-radius: 5px;
@@ -61,33 +69,51 @@ body {
 	display: flex;
 	flex-direction: column;
 }
+
 .todo-items article {
 	padding: 10px 10px 10px 15px;
-	position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  column-gap: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
 }
+
+.todo-items article:first-child {
+  margin-top: 16px;
+}
+
+.todo-items article:last-child {
+  margin-bottom: 16px;
+}
+
 .todo-items article:hover {
 	background-color: bisque;
+  transform: scale(1.05);
 }
-.todo-items article::before {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 10px;
-	background-color: red;
-	display: block;
-	z-index: 9;
+
+.todo-items .item-value {
+  flex-grow: 1;
+}
+
+.todo-items .item-value:focus {
+  outline: none;
 }
 .todo-items .action-icons {
   display: flex;
   column-gap: 8px;
   align-items: center;
+}
+.todo-items .action-icons.set-1 {
   visibility: hidden;
 }
 
-.todo-items article:hover .action-icons {
+.todo-items .action-icons.set-2 {
+  display: none;
+  visibility: visible;
+}
+
+.todo-items article:hover .action-icons.set-1 {
   visibility: visible;
 }

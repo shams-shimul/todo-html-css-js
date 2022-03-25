@@ -104,34 +104,34 @@ header {
 	border-radius: 5px;
 }
 
-.todo-items {
-	display: flex;
-	flex-direction: column;
-}
-
-.todo-items ul {
+ul.todo-items {
   list-style-type: none;
+  position: relative;
 }
 
-.todo-items ul>li {
+ul.todo-items>li#filter-action-row {
+  display: none;
+}
+
+ul.todo-items>li {
 	padding: 10px 10px 10px 15px;
 	display: flex;
 	align-items: center;
 	column-gap: 10px;
 	border-radius: 10px;
-	overflow: hidden;
+	/* overflow: hidden; */
 	transition: transform 0.3s ease-in-out;
 }
 
-.todo-items ul>li:first-child {
-	margin-top: 16px;
+ul.todo-items>li:first-child {
+	margin-top: 10px;
 }
 
-.todo-items ul>li:last-child {
+ul.todo-items>li:last-child {
 	margin-bottom: 16px;
 }
 
-.todo-items ul>li:hover {
+ul.todo-items>li:not(#filter-action-row):hover {
 	background-color: bisque;
 	transform: scale(1.05);
 }
@@ -151,41 +151,73 @@ header {
 .more-btn {
   width: 25px;
   height: 25px;
-  border-radius: 50px;
-  border: none;
+  border-radius: 10px 10px 10px 0;
+  border: 1px solid gray;
   color: gray;
   text-align: center;
+  overflow: visible;
+  outline: none;
+  transition: all 0.1s ease-in-out;
 }
 
 .more-btn:hover {
   color: #e94057;
-  border: 1px solid #e94057;
+  border-color: #e94057;
 }
 
-.todo-items .item-value {
+#more-opt {
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  background-color: gainsboro;
+  font-size: small;
+  border-radius: 10px 0 10px 10px;
+  height: 0;
+  overflow: hidden;
+  z-index: 99;
+  transition: height 0.3s ease-in-out;
+}
+
+#more-opt-list {
+  list-style-type: none;
+  padding: 5px 0;
+}
+
+#more-opt-list>li {
+  padding: 0 5px;
+  margin: 0 5px;
+  border-radius: 5px 0 5px 5px;
+}
+
+#more-opt-list>li:hover {
+  background-color: #e94057;
+  color: white;
+}
+
+ul.todo-items .item-value {
 	flex-grow: 1;
   border-bottom: 1px solid transparent;
 }
 
-.todo-items .item-value:focus {
+ul.todo-items .item-value:focus {
 	outline: none;
 }
-.todo-items .action-icons {
+ul.todo-items .action-icons {
 	display: flex;
 	align-items: center;
   column-gap: 8px;
 }
 
-.todo-items .action-icons.set-1 {
+ul.todo-items .action-icons.set-1 {
 	visibility: hidden;
 }
 
-.todo-items .action-icons.set-2 {
+ul.todo-items .action-icons.set-2 {
 	display: none;
 	visibility: visible;
 }
 
-.todo-items ul>li:hover .action-icons.set-1 {
+ul.todo-items>li:hover .action-icons.set-1 {
 	visibility: visible;
 }
 

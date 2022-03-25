@@ -40,20 +40,29 @@
 					<button type="submit" class="btn-submit clickable">Add</button>
 				</form>
 			</section>
-			<section class="todo-items">
-        <ul>
-          <li>
+			<section>
+        <ul class="todo-items">
+          <li id="filter-action-row">
             <button class="filter-btn clickable active" id="filter-all">All</button>
             <button class="filter-btn clickable" id="filter-done">Done</button>
             <button class="filter-btn clickable" id="filter-not-done">Not Done Yet</button>
             <span style="flex-grow: 1;"></span>
-            <button class="more-btn clickable" title="More options"><i class="fa-solid fa-ellipsis"></i></button>
+            <button class="more-btn clickable" id="more-btn" title="More options" onclick="toggleMoreOpt(this)">
+              <i class="fa-solid fa-ellipsis"></i>
+            </button>
           </li>
+          <div id="more-opt">
+            <ul id="more-opt-list">
+              <li class="clickable" onclick="markAllDone()"><i class="fa solid fa-circle-check"></i> Mark all as 'Done'</li>
+              <li class="clickable" onclick="markAllNotDone()"><i class="fa-regular fa-circle"></i> Mark all as 'Not Done'</li>
+              <li class="clickable" onclick="deleteAll()"><i class="fa-solid fa-trash-can"></i> Delete all at once</li>
+            </ul>
+          </div>
         </ul>
 			</section>
 		</main>
     <footer>
-      No Copyright &copy; <span id="this-year"></span> | Developed with ❤ by <a href="https://github.com/shams-shimul" target="_blank76">Shams Shimul</a>
+      No Copyright &copy; <span id="this-year"></span> | Made with ❤ by <a href="https://github.com/shams-shimul" target="_blank76">Shams Shimul</a>
     </footer>
 		<script src="./script.js" async defer></script>
 	</body>

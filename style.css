@@ -95,6 +95,10 @@ header {
 	outline: none;
 }
 
+#todo-input-form input::placeholder {
+  color: darkgray;
+}
+
 .btn-submit {
 	padding: 10px 15px;
 	border-radius: 5px;
@@ -105,7 +109,11 @@ header {
 	flex-direction: column;
 }
 
-.todo-items article {
+.todo-items ul {
+  list-style-type: none;
+}
+
+.todo-items ul>li {
 	padding: 10px 10px 10px 15px;
 	display: flex;
 	align-items: center;
@@ -115,17 +123,43 @@ header {
 	transition: transform 0.3s ease-in-out;
 }
 
-.todo-items article:first-child {
+.todo-items ul>li:first-child {
 	margin-top: 16px;
 }
 
-.todo-items article:last-child {
+.todo-items ul>li:last-child {
 	margin-bottom: 16px;
 }
 
-.todo-items article:hover {
+.todo-items ul>li:hover {
 	background-color: bisque;
 	transform: scale(1.05);
+}
+
+.filter-btn {
+  font-size: small;
+  padding: 0 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.filter-btn.active {
+  background: black;
+  color: white;
+}
+
+.more-btn {
+  width: 25px;
+  height: 25px;
+  border-radius: 50px;
+  border: none;
+  color: gray;
+  text-align: center;
+}
+
+.more-btn:hover {
+  color: #e94057;
+  border: 1px solid #e94057;
 }
 
 .todo-items .item-value {
@@ -151,7 +185,7 @@ header {
 	visibility: visible;
 }
 
-.todo-items article:hover .action-icons.set-1 {
+.todo-items ul>li:hover .action-icons.set-1 {
 	visibility: visible;
 }
 

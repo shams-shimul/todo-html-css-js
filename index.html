@@ -36,11 +36,20 @@
 		<main class="container">
 			<section class="todo-input">
 				<form id="todo-input-form">
-					<input type="text" name="todo" id="todo" />
+					<input type="text" name="todo" id="todo" placeholder="Your next big thing to do..." />
 					<button type="submit" class="btn-submit clickable">Add</button>
 				</form>
 			</section>
 			<section class="todo-items">
+        <ul>
+          <li>
+            <button class="filter-btn clickable active" id="filter-all">All</button>
+            <button class="filter-btn clickable" id="filter-done">Done</button>
+            <button class="filter-btn clickable" id="filter-not-done">Not Done Yet</button>
+            <span style="flex-grow: 1;"></span>
+            <button class="more-btn clickable" title="More options"><i class="fa-solid fa-ellipsis"></i></button>
+          </li>
+        </ul>
 			</section>
 		</main>
     <footer>

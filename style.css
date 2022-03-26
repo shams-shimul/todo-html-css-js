@@ -151,18 +151,18 @@ ul.todo-items>li:not(#filter-action-row):hover {
 .more-btn {
   width: 25px;
   height: 25px;
-  border-radius: 10px 10px 10px 0;
-  border: 1px solid gray;
+  border-radius: 50px;
+  border: 1px solid transparent;
   color: gray;
   text-align: center;
   overflow: visible;
   outline: none;
-  transition: all 0.1s ease-in-out;
+  transition: all 0.3s ease;
 }
 
 .more-btn:hover {
-  color: #e94057;
-  border-color: #e94057;
+  color: #e94057 !important;
+  border-color: #e94057 !important;
 }
 
 #more-opt {

@@ -85,7 +85,7 @@ header {
 #todo-input-form input {
 	padding: 10px 15px;
 	flex-grow: 1;
-	border-radius: 5px;
+	border-radius: 6px 0 0 6px;
   border: none;
   outline: none;
 }
@@ -101,7 +101,7 @@ header {
 
 .btn-submit {
 	padding: 10px 15px;
-	border-radius: 5px;
+	border-radius: 0 6px 6px 0;
 }
 
 ul.todo-items {
@@ -161,8 +161,11 @@ ul.todo-items>li:not(#filter-action-row):hover {
 }
 
 .more-btn:hover {
-  color: #e94057 !important;
   border-color: #e94057 !important;
+}
+
+.more-btn:hover i {
+  color: #e94057 !important;
 }
 
 #more-opt {
@@ -190,7 +193,7 @@ ul.todo-items>li:not(#filter-action-row):hover {
 }
 
 #more-opt-list>li:hover {
-  background-color: #e94057;
+  background: linear-gradient(320deg, #f27121, #e94057, #8a2387);;
   color: white;
 }
 

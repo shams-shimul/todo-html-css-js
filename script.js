@@ -163,22 +163,22 @@ const filterAll = () => {
   }
 }
 
-const filterDone = () => {
+const filterDone = (allOrDone) => {
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     if (allItems[i].getAttribute("status") === "Done") {
-      allItems[i].style.display = 'flex';
+      allItems[i].style.display = `${allOrDone ? 'flex' : 'none'}`
     } else {
       allItems[i].style.display = "none";
     }
   }
 }
 
-const filterNotDone = () => {
+const filterNotDone = (allOrNotdone) => {
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     if (allItems[i].getAttribute("status") === "Not-done") {
-      allItems[i].style.display = 'flex';
+      allItems[i].style.display = `${allOrNotdone ? 'flex' : 'none'}`
     } else {
       allItems[i].style.display = "none";
     }
@@ -199,7 +199,7 @@ document.getElementById("filter-done").addEventListener("click", () => {
   document.getElementById("filter-all").classList.remove("active");
   document.getElementById("filter-done").classList.add("active");
   document.getElementById("filter-not-done").classList.remove("active");
-  filterDone();
+  filterDone(true);
 });
 
 document.getElementById("filter-not-done").addEventListener("click", () => {
@@ -207,7 +207,7 @@ document.getElementById("filter-not-done").addEventListener("click", () => {
   document.getElementById("filter-done").classList.remove("active");
   document.getElementById("filter-not-done").classList.add("active");
   document.getElementById("filter-not-done").classList.add("active");
-  filterNotDone();
+  filterNotDone(true);
 });
 
 // Toggle show/hide of more options
@@ -241,7 +241,9 @@ const markAllDone = () => {
     allItems[i].querySelector("span.item-value").style.textDecoration = "line-through";
     allItems[i].querySelector("span.item-value").style.color = "gray";
   }
-  filterNotDone()
+  if (document.getElementById("filter-all").classList.contains("active")) {
+    filterDone(true);
+  } else filterDone()
 }
 const markAllNotDone = () => {
   if (todos.length > 0) {
@@ -254,7 +256,9 @@ const markAllNotDone = () => {
     allItems[i].querySelector("span.item-value").style.textDecoration = "none";
     allItems[i].querySelector("span.item-value").style.color = "black";
   }
-  filterDone();
+  if (document.getElementById("filter-all").classList.contains("active")) {
+    filterNotDone(true);
+  } else filterNotDone()
 }
 const deleteAll = () => {
   if (todos.length > 0) {
@@ -266,9 +270,12 @@ const deleteAll = () => {
     allItems[i].remove()
   }
   document.getElementById("filter-action-row").style.display = "none"
-  document.getElementById("more-opt").style.height = `0px`;
+  document.getElementById("more-opt").style.height = '0px';
   document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-ellipsis clickable");
 }
+
+// Close more-opt-list on click outside more-opt button
+
 
 // Dynamic year for footer
 document.getElementById("this-year").innerText = new Date().getFullYear();

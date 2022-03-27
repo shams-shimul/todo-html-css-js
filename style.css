@@ -12,7 +12,8 @@ body {
 	position: relative;
 	min-height: 100vh;
 	background: linear-gradient(320deg, #f27121, #e94057, #8a2387);
-	padding: 30px 0 100px;
+	padding: 30px 0px 100px;
+  overflow-x: hidden;
 }
 
 .clickable {
@@ -42,20 +43,38 @@ body {
 	transform: translateX(-50%);
 	padding: 15px 20px;
 	background-color: aqua;
+  background-image: linear-gradient( 135deg, #69FF97 10%, #00E4FF 100%);
 	width: max-content;
 	transition: all 0.3s ease-in-out;
 }
 
 header {
 	font-size: 3em;
-	text-align: center;
-	margin-bottom: 30px;
+  text-align: center;
+  width: 450px;
+  margin: 0 auto 30px;
+}
+
+header #title {
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
+
+header #date-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 22px;
+  margin-top: 5px;
+}
+
+header #time-now span {
+  font-size: small;
+  position: relative;
+  top: -7px;
 }
 
 .container {
-	position: relative;
-	left: 50%;
-	transform: translateX(-50%);
+	margin: auto;
 	width: 450px;
 	background: rgba(255, 255, 255, 0.5);
 	border-radius: 16px;
@@ -175,7 +194,7 @@ ul.todo-items>li:not(#filter-action-row):hover {
   background-color: gainsboro;
   font-size: small;
   border-radius: 10px 0 10px 10px;
-  height: 0;
+  height: 0px;
   overflow: hidden;
   z-index: 99;
   transition: height 0.3s ease-in-out;
@@ -187,9 +206,9 @@ ul.todo-items>li:not(#filter-action-row):hover {
 }
 
 #more-opt-list>li {
-  padding: 0 5px;
+  padding: 2px 5px;
   margin: 0 5px;
-  border-radius: 5px 0 5px 5px;
+  border-radius: 7px 0 7px 7px;
 }
 
 #more-opt-list>li:hover {
@@ -197,14 +216,23 @@ ul.todo-items>li:not(#filter-action-row):hover {
   color: white;
 }
 
+ul.todo-items .item-wrap {
+  flex-grow: 1;
+}
+
 ul.todo-items .item-value {
-	flex-grow: 1;
   border-bottom: 1px solid transparent;
 }
 
 ul.todo-items .item-value:focus {
 	outline: none;
 }
+
+ul.todo-items .item-datestamp {
+  font-size: smaller;
+  color: #696969;
+}
+
 ul.todo-items .action-icons {
 	display: flex;
 	align-items: center;

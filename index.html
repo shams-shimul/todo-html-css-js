@@ -28,10 +28,12 @@
 				<a href="#">upgrade your browser</a> to improve your experience.
 			</p>
 		<![endif]-->
-    <div class="backdrop"></div>
-    <div class="alert"></div>
     <header>
-      <h1>ToDo List</h1>
+      <div id="title">Today's TO-DO</div>
+      <div id="date-time">
+        <div id="day-date"></div>
+        <div id="time-now"></div>
+      </div>
     </header>
 		<main class="container">
 			<section class="todo-input">
@@ -61,9 +63,11 @@
         </ul>
 			</section>
 		</main>
+    <div class="backdrop"></div>
+    <div class="alert"></div>
     <footer>
       No Copyright &copy; <span id="this-year"></span> | Made with ❤ by <a href="https://github.com/shams-shimul" target="_blank">Shams Shimul</a>
     </footer>
-		<script src="./script.js" type="text/javascript" defer></script>
+		<script src="./script.js" type="text/javascript"></script>
 	</body>
 </html>

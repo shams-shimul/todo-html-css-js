@@ -1,17 +1,19 @@
 const createDayDate = () => {
   const thisDayDate = new Date();
-  const dayName = thisDayDate.toDateString().substring(0, 3) + "day";
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const dayName = days[thisDayDate.getDay()];
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const monthName = months[thisDayDate.getMonth()];
-  return (`${dayName + ', ' + monthName + ' ' + thisDayDate.getDate() + ', ' + thisDayDate.getFullYear()}`);
+  return (`${dayName}, ${monthName} ${thisDayDate.getDate()}, ${thisDayDate.getFullYear()}`);
 }
 
 document.getElementById("day-date").innerHTML = `
-  ${createDayDate()}
+  <span class="material-icons">today</span> ${createDayDate()}
 `;
 
 setInterval(() => {
   document.getElementById("time-now").innerHTML = `
+    <span class="material-icons">schedule</span>
     ${new Date().toLocaleTimeString().substr(0, 8)}
     <span>${new Date().toLocaleTimeString().substr(-2)}</span>
   `;
@@ -37,7 +39,7 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
       </span>
       <div class="item-wrap">
         <div class="item-value" onkeydown="actionOnKeydown(this)">${todoVal}</div>
-        <div class="item-datestamp">Created on ${createDayDate()}</div>
+        <div class="item-datetimestamp">Created on ${createDayDate()} at ${new Date().toLocaleTimeString().substr(0, 8)} ${new Date().toLocaleTimeString().substr(-2)}</div>
       </div>
       <span class="action-icons set-1">
         <i class="fa-regular fa-pen-to-square clickable" title="Edit" onclick="editItem(this)"></i>

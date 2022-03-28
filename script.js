@@ -27,9 +27,10 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
   const todoVal = document.getElementById("todo").value;
   if (todoVal) {
     if (todos.length === 0) {
-      document.getElementById("filter-action-row").style.display = "flex"
+      document.getElementById("filter-action-row").style.display = "flex";
     }
-    todos.push({ valueBeforeEdit: todoVal, alteredValue: todoVal, done: false, editModeOn: false });
+    todos.push({ valueBeforeEdit: todoVal, alteredValue: todoVal, done: false, editModeOn: false, createdDate: createDayDate(), createdTime: new Date().toLocaleTimeString() });
+
     const newElem = document.createElement("li");
     newElem.setAttribute("id", `item-${itemCount}`);
     newElem.setAttribute("status", `${todos[itemCount].done ? "Done" : "Not-done"}`);
@@ -39,7 +40,7 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
       </span>
       <div class="item-wrap">
         <div class="item-value" onkeydown="actionOnKeydown(this)">${todoVal}</div>
-        <div class="item-datetimestamp">Created on ${createDayDate()} at ${new Date().toLocaleTimeString().substr(0, 8)} ${new Date().toLocaleTimeString().substr(-2)}</div>
+        <div class="item-datetimestamp">Created on ${todos[itemCount].createdDate} at ${todos[itemCount].createdTime.substr(0, 8)} ${todos[itemCount].createdTime.substr(-2)}</div>
       </div>
       <span class="action-icons set-1">
         <i class="fa-regular fa-pen-to-square clickable" title="Edit" onclick="editItem(this)"></i>
@@ -72,6 +73,9 @@ const deleteItem = (thisNode) => {
   --itemCount;
   if (itemCount === 0) {
     document.getElementById("filter-action-row").style.display = 'none';
+    document.getElementById("more-opt").style.height = '0px';
+    document.getElementById("more-btn").style.borderRadius = "50px";
+    document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-ellipsis clickable");
   }
   todos.splice(itemPos, 1);
   thisNode.parentElement.parentElement.remove();
@@ -255,9 +259,7 @@ const toggleMoreOpt = (thisNode) => {
 // More options click events
 
 const markAllDone = () => {
-  if (todos.length > 0) {
-    todos = todos.map(item => ({ ...item, done: true }));
-  }
+  todos = todos.map(item => ({ ...item, done: true }));
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].setAttribute("status", "Done");
@@ -270,9 +272,7 @@ const markAllDone = () => {
   } else filterDone()
 }
 const markAllNotDone = () => {
-  if (todos.length > 0) {
-    todos = todos.map(item => ({ ...item, done: false }));
-  }
+  todos = todos.map(item => ({ ...item, done: false }));
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].setAttribute("status", "Not-done");
@@ -285,16 +285,15 @@ const markAllNotDone = () => {
   } else filterNotDone()
 }
 const deleteAll = () => {
-  if (todos.length > 0) {
-    todos = [];
-    itemCount = 0
-  }
+  todos = [];
+  itemCount = 0
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].remove()
   }
   document.getElementById("filter-action-row").style.display = "none"
   document.getElementById("more-opt").style.height = '0px';
+  document.getElementById("more-btn").style.borderRadius = "50px";
   document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-ellipsis clickable");
 }
 

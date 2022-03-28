@@ -49,9 +49,9 @@ body {
 }
 
 .material-icons {
-	/* background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%); */
+	background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
 	/* background-image: linear-gradient(135deg, #fad7a1 10%, #e96d71 100%); */
-	background-image: linear-gradient(to right, #ffc3a0 0%, #ffafbd 100%);
+	/* background-image: linear-gradient(to right, #ffc3a0 0%, #ffafbd 100%); */
 	background-size: 100%;
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -192,7 +192,7 @@ ul.todo-items > li:not(#filter-action-row):hover {
 	color: white;
 }
 
-.more-btn {
+#more-btn {
 	width: 25px;
 	height: 25px;
 	border-radius: 50px;
@@ -204,11 +204,11 @@ ul.todo-items > li:not(#filter-action-row):hover {
 	transition: all 0.3s ease;
 }
 
-.more-btn:hover {
+#more-btn:hover {
 	border-color: #e94057 !important;
 }
 
-.more-btn:hover i {
+#more-btn:hover i {
 	color: #e94057 !important;
 }
 

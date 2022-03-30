@@ -119,16 +119,11 @@ ul.todo-items>li {
 	align-items: center;
 	column-gap: 10px;
 	border-radius: 10px;
-	/* overflow: hidden; */
 	transition: transform 0.3s ease-in-out;
 }
 
 ul.todo-items>li:first-child {
-	margin-top: 10px;
-}
-
-ul.todo-items>li:last-child {
-	margin-bottom: 16px;
+	margin-top: 16px;
 }
 
 ul.todo-items>li:not(#filter-action-row):hover {
@@ -148,23 +143,31 @@ ul.todo-items>li:not(#filter-action-row):hover {
   color: white;
 }
 
-.more-btn {
+#more-btn {
   width: 25px;
   height: 25px;
   border-radius: 50px;
   border: 1px solid transparent;
-  color: gray;
   text-align: center;
   overflow: visible;
   outline: none;
   transition: all 0.3s ease;
 }
 
-.more-btn:hover {
+#more-btn.open {
+  border-radius: 10px 10px 10px 0px;
   border-color: #e94057 !important;
 }
 
-.more-btn:hover i {
+#more-btn:hover {
+  border-color: #e94057 !important;
+}
+
+#more-btn i {
+  color: gray;
+}
+
+#more-btn.open i, #more-btn:hover i {
   color: #e94057 !important;
 }
 
@@ -189,12 +192,34 @@ ul.todo-items>li:not(#filter-action-row):hover {
 #more-opt-list>li {
   padding: 0 5px;
   margin: 0 5px;
-  border-radius: 5px 0 5px 5px;
+  border-radius: 7px 0 7px 7px;
+}
+
+#more-opt-list hr {
+  width: 94%;
+  margin: auto;
+}
+
+#more-opt-list>li:nth-child(2) {
+  margin-bottom: 4px;
+}
+
+#more-opt-list>li:last-child {
+  margin-top: 3px;
 }
 
 #more-opt-list>li:hover {
   background: linear-gradient(320deg, #f27121, #e94057, #8a2387);;
   color: white;
+}
+
+#more-opt-list li.disabled {
+  cursor: not-allowed;
+  color: darkgray;
+}
+
+#more-opt-list li.disabled:hover {
+  background: transparent;
 }
 
 ul.todo-items .item-value {

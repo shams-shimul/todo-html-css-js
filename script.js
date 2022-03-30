@@ -1,24 +1,3 @@
-const createDayDate = () => {
-  const thisDayDate = new Date();
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const dayName = days[thisDayDate.getDay()];
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const monthName = months[thisDayDate.getMonth()];
-  return (`${dayName}, ${monthName} ${thisDayDate.getDate()}, ${thisDayDate.getFullYear()}`);
-}
-
-document.getElementById("day-date").innerHTML = `
-  <span class="material-icons">today</span> ${createDayDate()}
-`;
-
-setInterval(() => {
-  document.getElementById("time-now").innerHTML = `
-    <span class="material-icons">schedule</span>
-    ${new Date().toLocaleTimeString().substr(0, 8)}
-    <span>${new Date().toLocaleTimeString().substr(-2)}</span>
-  `;
-}, 1000);
-
 let itemCount = 0;
 let todos = [];
 document.getElementById("todo").focus();
@@ -28,20 +7,29 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
   if (todoVal) {
     if (todos.length === 0) {
       document.getElementById("filter-action-row").style.display = "flex";
+      document.querySelector(".todo-items").style.marginBottom = "16px";
     }
-    todos.push({ valueBeforeEdit: todoVal, alteredValue: todoVal, done: false, editModeOn: false, createdDate: createDayDate(), createdTime: new Date().toLocaleTimeString() });
-
+    todos.push({
+      valueBeforeEdit: todoVal,
+      alteredValue: todoVal,
+      done: false,
+      editModeOn: false,
+    });
     const newElem = document.createElement("li");
     newElem.setAttribute("id", `item-${itemCount}`);
-    newElem.setAttribute("status", `${todos[itemCount].done ? "Done" : "Not-done"}`);
+    newElem.setAttribute(
+      "status",
+      `${todos[itemCount].done ? "Done" : "Not-done"}`
+    );
     newElem.innerHTML = `
       <span>
-        <i class="${todos[itemCount].done ? 'fa solid fa-circle-check' : 'fa-regular fa-circle'} clickable" title="Click to mark as ${todos[itemCount].done ? "'Not Done'" : "'Done'"}" onclick="toggleDone(this)"></i>
+        <i class="${todos[itemCount].done
+        ? "fa solid fa-circle-check"
+        : "fa-regular fa-circle"
+      } clickable" title="Click to mark as ${todos[itemCount].done ? "'Not Done'" : "'Done'"
+      }" onclick="toggleDone(this)"></i>
       </span>
-      <div class="item-wrap">
-        <div class="item-value" onkeydown="actionOnKeydown(this)">${todoVal}</div>
-        <div class="item-datetimestamp">Created on ${todos[itemCount].createdDate} at ${todos[itemCount].createdTime.substr(0, 8)} ${todos[itemCount].createdTime.substr(-2)}</div>
-      </div>
+      <span class="item-value" onkeydown="actionOnKeydown(this)">${todoVal}</span>
       <span class="action-icons set-1">
         <i class="fa-regular fa-pen-to-square clickable" title="Edit" onclick="editItem(this)"></i>
         <i class="fa-regular fa-trash-can clickable" title="Delete" onclick="deleteItem(this)"></i>
@@ -61,54 +49,69 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
   }
 });
 
-// Activate edit mode
-const editItem = (thisNode) => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
+// Activate edit mode and toggle action icons
+const editItem = thisNode => {
+  const itemPos = thisNode.parentElement.parentElement
+    .getAttribute("id")
+    .substring(5);
   toggleEditAndIcons(thisNode, itemPos);
-}
+};
 
 // Delete items
-const deleteItem = (thisNode) => {
-  const itemPos = Number(thisNode.parentElement.parentElement.getAttribute("id").substring(5));
+const deleteItem = thisNode => {
+  const itemPos = Number(
+    thisNode.parentElement.parentElement.getAttribute("id").substring(5)
+  );
   --itemCount;
   if (itemCount === 0) {
-    document.getElementById("filter-action-row").style.display = 'none';
-    document.getElementById("more-opt").style.height = '0px';
-    document.getElementById("more-btn").style.borderRadius = "50px";
-    document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-ellipsis clickable");
+    document.getElementById("filter-action-row").style.display = "none";
+    document.getElementById("more-btn").classList.remove("open");
+    document
+      .querySelector("#more-btn i")
+      .setAttribute("class", "fa-solid fa-ellipsis");
+    document.getElementById("more-opt").style.height = "0px";
+    document.querySelector(".todo-items").style.marginBottom = "16px";
   }
   todos.splice(itemPos, 1);
   thisNode.parentElement.parentElement.remove();
-  const allRows = document.querySelectorAll(".todo-items>li:not(#filter-action-row)");
+  const allRows = document.querySelectorAll(
+    ".todo-items>li:not(#filter-action-row)"
+  );
   for (let i = 0; i < todos.length; i++) {
     if (i === itemPos || i > itemPos) {
       allRows[i].setAttribute("id", `item-${i}`);
     }
   }
   toggleAlert("Item Deleted");
-}
+};
 
 // Save edited items
-const saveEdit = (thisNode) => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
-  todos[itemPos].alteredValue = thisNode.parentElement.parentElement.querySelector(".item-value").innerText;
+const saveEdit = thisNode => {
+  const itemPos = thisNode.parentElement.parentElement
+    .getAttribute("id")
+    .substring(5);
+  todos[itemPos].alteredValue =
+    thisNode.parentElement.parentElement.querySelector(".item-value").innerText;
   if (todos[itemPos].alteredValue !== todos[itemPos].valueBeforeEdit) {
     todos[itemPos].valueBeforeEdit = todos[itemPos].alteredValue;
     toggleAlert("Changes Saved");
   }
   toggleEditAndIcons(thisNode, itemPos);
-}
+};
 
-// Cancel edit mode without saving changes
-const cancelEdit = (thisNode) => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
-  thisNode.parentElement.parentElement.querySelector(".item-value").innerText = todos[itemPos].valueBeforeEdit;
+// Cancel edit mode
+const cancelEdit = thisNode => {
+  const itemPos = thisNode.parentElement.parentElement
+    .getAttribute("id")
+    .substring(5);
+  thisNode.parentElement.parentElement.querySelector(".item-value").innerText =
+    todos[itemPos].valueBeforeEdit;
   toggleEditAndIcons(thisNode, itemPos);
-}
+};
 
 // Save/cancel on 'Enter/Excape' Keypress on edit mode
-const actionOnKeydown = (thisNode) => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
+const actionOnKeydown = thisNode => {
+  const itemPos = thisNode.parentElement.getAttribute("id").substring(5);
   if (window.event.key === "Enter") {
     window.event.preventDefault();
     todos[itemPos].alteredValue = thisNode.innerText;
@@ -116,17 +119,23 @@ const actionOnKeydown = (thisNode) => {
       todos[itemPos].valueBeforeEdit = todos[itemPos].alteredValue;
       toggleAlert("Changes Saved");
     }
-    toggleEditAndIcons(thisNode.parentElement.nextElementSibling.nextElementSibling.firstElementChild, itemPos);
+    toggleEditAndIcons(
+      thisNode.nextElementSibling.nextElementSibling.firstElementChild,
+      itemPos
+    );
   }
   if (window.event.key === "Escape") {
     window.event.preventDefault();
     thisNode.innerText = todos[itemPos].valueBeforeEdit;
-    toggleEditAndIcons(thisNode.nextElementSibling.nextElementSibling.lastElementChild, itemPos);
+    toggleEditAndIcons(
+      thisNode.nextElementSibling.nextElementSibling.lastElementChild,
+      itemPos
+    );
   }
-}
+};
 
 // Show/Hide alert from top on adding/editing/deleting of items
-const toggleAlert = (label) => {
+const toggleAlert = label => {
   document.querySelector(".alert").innerText = label;
   document.querySelector(".alert").style.top = "35px";
   document.querySelector(".backdrop").style.visibility = "visible";
@@ -134,22 +143,31 @@ const toggleAlert = (label) => {
     document.querySelector(".alert").style.top = "-25%";
     document.querySelector(".backdrop").style.visibility = "hidden";
   }, 2000);
-}
+};
 
 // Toggle between done/not-done todos of items and visual appearance
-const toggleDone = (thisNode) => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
+const toggleDone = thisNode => {
+  const itemPos = thisNode.parentElement.parentElement
+    .getAttribute("id")
+    .substring(5);
   if (todos[itemPos].done) {
     thisNode.setAttribute("class", "fa-regular fa-circle clickable");
     thisNode.setAttribute("title", "Click to mark as 'Done'");
-    thisNode.parentElement.parentElement.setAttribute("status", `${todos[itemPos].done ? 'Not-done' : 'Done'}`);
+    thisNode.parentElement.parentElement.setAttribute(
+      "status",
+      `${todos[itemPos].done ? "Not-done" : "Done"}`
+    );
     thisNode.parentElement.nextElementSibling.style.textDecoration = "none";
     thisNode.parentElement.nextElementSibling.style.color = "initial";
   } else {
     thisNode.setAttribute("class", "fa-solid fa-circle-check clickable");
     thisNode.setAttribute("title", "Click to mark as 'Not Done'");
-    thisNode.parentElement.parentElement.setAttribute("status", `${todos[itemPos].done ? 'Not-done' : 'Done'}`);
-    thisNode.parentElement.nextElementSibling.style.textDecoration = "line-through";
+    thisNode.parentElement.parentElement.setAttribute(
+      "status",
+      `${todos[itemPos].done ? "Not-done" : "Done"}`
+    );
+    thisNode.parentElement.nextElementSibling.style.textDecoration =
+      "line-through";
     thisNode.parentElement.nextElementSibling.style.color = "gray";
   }
   todos[itemPos].done = !todos[itemPos].done;
@@ -159,17 +177,61 @@ const toggleDone = (thisNode) => {
   if (document.getElementById("filter-not-done").classList.contains("active")) {
     filterNotDone(true);
   }
-}
+
+  let allDoneCount = 0;
+  let allNotDoneCount = 0;
+  for (let i = 0; i < todos.length; i++) {
+    todos[i].done ? ++allDoneCount : ++allNotDoneCount;
+  }
+  if (allDoneCount === todos.length) {
+    document
+      .querySelector("#more-opt-list li:first-child")
+      .setAttribute("class", "disabled");
+    document
+      .querySelector("#more-opt-list li:first-child")
+      .removeAttribute("onclick");
+  } else {
+    document
+      .querySelector("#more-opt-list li:first-child")
+      .setAttribute("class", "clickable");
+    document
+      .querySelector("#more-opt-list li:first-child")
+      .setAttribute("onclick", "markAllDone(this)");
+  }
+  if (allNotDoneCount === todos.length) {
+    document
+      .querySelector("#more-opt-list li:nth-child(2)")
+      .setAttribute("class", "disabled");
+    document
+      .querySelector("#more-opt-list li:nth-child(2)")
+      .removeAttribute("onclick");
+  } else {
+    document
+      .querySelector("#more-opt-list li:nth-child(2)")
+      .setAttribute("class", "clickable");
+    document
+      .querySelector("#more-opt-list li:nth-child(2)")
+      .setAttribute("onclick", "markAllNotDone(this)");
+  }
+};
 
 // Toggle between edit/normal mode and action icons
 const toggleEditAndIcons = (thisNode, itemPos) => {
   if (todos[itemPos].editModeOn) {
-    thisNode.parentElement.parentElement.querySelector(".item-value").setAttribute("contentEditable", "false");
-    thisNode.parentElement.parentElement.querySelector(".item-value").classList.remove("editable");
+    thisNode.parentElement.parentElement
+      .querySelector(".item-value")
+      .setAttribute("contentEditable", "false");
+    thisNode.parentElement.parentElement
+      .querySelector(".item-value")
+      .classList.remove("editable");
   } else {
-    thisNode.parentElement.parentElement.querySelector(".item-value").setAttribute("contentEditable", "true");
+    thisNode.parentElement.parentElement
+      .querySelector(".item-value")
+      .setAttribute("contentEditable", "true");
     thisNode.parentElement.parentElement.querySelector(".item-value").focus();
-    thisNode.parentElement.parentElement.querySelector(".item-value").classList.add("editable");
+    thisNode.parentElement.parentElement
+      .querySelector(".item-value")
+      .classList.add("editable");
   }
   thisNode.parentElement.style.display = "none";
   if (thisNode.parentElement.classList.contains("set-1")) {
@@ -179,40 +241,38 @@ const toggleEditAndIcons = (thisNode, itemPos) => {
     thisNode.parentElement.previousElementSibling.style.display = "flex";
   }
   todos[itemPos].editModeOn = !todos[itemPos].editModeOn;
-}
-
+};
 
 // Filtering functions(3)
 
 const filterAll = () => {
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
-    allItems[i].style.display = 'flex';
+    allItems[i].style.display = "flex";
   }
-}
+};
 
-const filterDone = (allOrDone) => {
+const filterDone = allOrDone => {
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     if (allItems[i].getAttribute("status") === "Done") {
-      allItems[i].style.display = `${allOrDone ? 'flex' : 'none'}`
+      allItems[i].style.display = `${allOrDone ? "flex" : "none"}`;
     } else {
       allItems[i].style.display = "none";
     }
   }
-}
+};
 
-const filterNotDone = (allOrNotdone) => {
+const filterNotDone = allOrNotdone => {
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     if (allItems[i].getAttribute("status") === "Not-done") {
-      allItems[i].style.display = `${allOrNotdone ? 'flex' : 'none'}`
+      allItems[i].style.display = `${allOrNotdone ? "flex" : "none"}`;
     } else {
       allItems[i].style.display = "none";
     }
   }
-}
-
+};
 
 // Filter buttons click events
 
@@ -240,65 +300,103 @@ document.getElementById("filter-not-done").addEventListener("click", () => {
 
 // Toggle show/hide of more options
 const moreOptListHeight = document.getElementById("more-opt-list").clientHeight;
-const toggleMoreOpt = (thisNode) => {
+const toggleMoreOpt = thisNode => {
   if (thisNode.querySelector("i").classList.contains("close-more")) {
-    document.getElementById("more-btn").style.borderRadius = "50px";
-    document.getElementById("more-btn").style.border = "1px solid transparent";
+    document.getElementById("more-btn").classList.remove("open");
     thisNode.querySelector("i").setAttribute("class", "fa-solid fa-ellipsis");
-    thisNode.querySelector("i").style.color = "gray";
-    document.getElementById("more-opt").style.height = '0px';
+    document.getElementById("more-opt").style.height = "0px";
   } else {
-    document.getElementById("more-btn").style.borderRadius = "10px 10px 10px 0";
-    document.getElementById("more-btn").style.border = "1px solid #e94057";
-    thisNode.querySelector("i").setAttribute("class", "fa-solid fa-xmark close-more");
-    thisNode.querySelector("i").style.color = "#e94057";
+    document.getElementById("more-btn").classList.add("open");
+    thisNode
+      .querySelector("i")
+      .setAttribute("class", "fa-solid fa-xmark close-more");
     document.getElementById("more-opt").style.height = `${moreOptListHeight}px`;
   }
-}
+};
 
 // More options click events
 
-const markAllDone = () => {
-  todos = todos.map(item => ({ ...item, done: true }));
+const markAllDone = thisNode => {
+  if (todos.length > 0) {
+    todos = todos.map(item => ({ ...item, done: true }));
+  }
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].setAttribute("status", "Done");
-    allItems[i].querySelector("span:first-child i").setAttribute("class", "fa-solid fa-circle-check clickable");
-    allItems[i].querySelector("div.item-value").style.textDecoration = "line-through";
-    allItems[i].querySelector("div.item-value").style.color = "gray";
+    allItems[i]
+      .querySelector("span:first-child i")
+      .setAttribute("class", "fa-solid fa-circle-check clickable");
+    allItems[i].querySelector("span.item-value").style.textDecoration =
+      "line-through";
+    allItems[i].querySelector("span.item-value").style.color = "gray";
   }
-  if (document.getElementById("filter-all").classList.contains("active")) {
+  if (
+    document.getElementById("filter-all").classList.contains("active") ||
+    document.getElementById("filter-done").classList.contains("active")
+  ) {
     filterDone(true);
-  } else filterDone()
-}
-const markAllNotDone = () => {
-  todos = todos.map(item => ({ ...item, done: false }));
+  } else filterDone();
+  thisNode.setAttribute("class", "disabled");
+  thisNode.removeAttribute("onclick");
+  thisNode.nextElementSibling.setAttribute("class", "clickable");
+  thisNode.nextElementSibling.setAttribute("onclick", "markAllNotDone(this)");
+};
+const markAllNotDone = thisNode => {
+  if (todos.length > 0) {
+    todos = todos.map(item => ({ ...item, done: false }));
+  }
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].setAttribute("status", "Not-done");
-    allItems[i].querySelector("span:first-child i").setAttribute("class", "fa-regular fa-circle clickable");
-    allItems[i].querySelector("div.item-value").style.textDecoration = "none";
-    allItems[i].querySelector("div.item-value").style.color = "black";
+    allItems[i]
+      .querySelector("span:first-child i")
+      .setAttribute("class", "fa-regular fa-circle clickable");
+    allItems[i].querySelector("span.item-value").style.textDecoration = "none";
+    allItems[i].querySelector("span.item-value").style.color = "black";
   }
-  if (document.getElementById("filter-all").classList.contains("active")) {
+  if (
+    document.getElementById("filter-all").classList.contains("active") ||
+    document.getElementById("filter-not-done").classList.contains("active")
+  ) {
     filterNotDone(true);
-  } else filterNotDone()
-}
+  } else filterNotDone();
+  thisNode.setAttribute("class", "disabled");
+  thisNode.removeAttribute("onclick");
+  thisNode.previousElementSibling.setAttribute("class", "clickable");
+  thisNode.previousElementSibling.setAttribute("onclick", "markAllDone(this)");
+};
 const deleteAll = () => {
-  todos = [];
-  itemCount = 0
+  if (todos.length > 0) {
+    todos = [];
+    itemCount = 0;
+  }
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
-    allItems[i].remove()
+    allItems[i].remove();
   }
-  document.getElementById("filter-action-row").style.display = "none"
-  document.getElementById("more-opt").style.height = '0px';
-  document.getElementById("more-btn").style.borderRadius = "50px";
-  document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-ellipsis clickable");
-}
+  document.getElementById("filter-action-row").style.display = "none";
+  document.getElementById("more-btn").classList.remove("open");
+  document
+    .querySelector("#more-btn i")
+    .setAttribute("class", "fa-solid fa-ellipsis");
+  document.getElementById("more-opt").style.height = "0px";
+  document.querySelector(".todo-items").style.marginBottom = "0";
+
+  document
+    .querySelector("#more-opt-list li:first-child")
+    .setAttribute("class", "clickable");
+  document
+    .querySelector("#more-opt-list li:first-child")
+    .setAttribute("onclick", "markAllDone()");
+  document
+    .querySelector("#more-opt-list li:nth-child(2)")
+    .setAttribute("class", "disabled");
+  document
+    .querySelector("#more-opt-list li:nth-child(2)")
+    .removeAttribute("onclick");
+};
 
 // Close more-opt-list on click outside more-opt button
-
 
 // Dynamic year for footer
 document.getElementById("this-year").innerText = new Date().getFullYear();

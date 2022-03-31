@@ -1,3 +1,21 @@
+const createDayDate = () => {
+  const thisDayDate = new Date();
+  const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Firday", "Saturday"];
+  const dayName = weekDays[thisDayDate.getDay()];
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const monthName = months[thisDayDate.getMonth()];
+  return (`${dayName}, ${monthName} ${thisDayDate.getDate()}, ${thisDayDate.getFullYear()}`);
+}
+document.getElementById("day-date").innerHTML = `
+  ${createDayDate()}
+`;
+setInterval(() => {
+  document.getElementById("time-now").innerHTML = `
+    ${new Date().toLocaleTimeString().substring(0, 8).trim()}
+    <span>${new Date().toLocaleTimeString().substring(8).trim()}</span>
+  `;
+}, 1000);
+
 let itemCount = 0;
 let todos = [];
 document.getElementById("todo").focus();
@@ -13,6 +31,8 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
       valueBeforeEdit: todoVal,
       alteredValue: todoVal,
       done: false,
+      createdDate: createDayDate(),
+      createdTime: new Date().toLocaleTimeString(),
       editModeOn: false,
     });
     const newElem = document.createElement("li");
@@ -29,7 +49,10 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
       } clickable" title="Click to mark as ${todos[itemCount].done ? "'Not Done'" : "'Done'"
       }" onclick="toggleDone(this)"></i>
       </span>
-      <span class="item-value" onkeydown="actionOnKeydown(this)">${todoVal}</span>
+      <div class="item-wrap">
+        <div class="item-value" onkeydown="actionOnKeydown(this)">${todoVal}</div>
+        <div class="item-datetimestamp">Created on ${todos[itemCount].createdDate} at ${todos[itemCount].createdTime.substr(0, 8)} ${todos[itemCount].createdTime.substr(-2)}</div>
+      </div>
       <span class="action-icons set-1">
         <i class="fa-regular fa-pen-to-square clickable" title="Edit" onclick="editItem(this)"></i>
         <i class="fa-regular fa-trash-can clickable" title="Delete" onclick="deleteItem(this)"></i>
@@ -157,8 +180,8 @@ const toggleDone = thisNode => {
       "status",
       `${todos[itemPos].done ? "Not-done" : "Done"}`
     );
-    thisNode.parentElement.nextElementSibling.style.textDecoration = "none";
-    thisNode.parentElement.nextElementSibling.style.color = "initial";
+    thisNode.parentElement.nextElementSibling.querySelector(".item-value").classList.remove("done");
+    thisNode.parentElement.nextElementSibling.querySelector(".item-datetimestamp").classList.remove("done");
   } else {
     thisNode.setAttribute("class", "fa-solid fa-circle-check clickable");
     thisNode.setAttribute("title", "Click to mark as 'Not Done'");
@@ -166,23 +189,27 @@ const toggleDone = thisNode => {
       "status",
       `${todos[itemPos].done ? "Not-done" : "Done"}`
     );
-    thisNode.parentElement.nextElementSibling.style.textDecoration =
-      "line-through";
-    thisNode.parentElement.nextElementSibling.style.color = "gray";
+    thisNode.parentElement.nextElementSibling.querySelector(".item-value").classList.add("done");
+    thisNode.parentElement.nextElementSibling.querySelector(".item-datetimestamp").classList.add("done");
   }
   todos[itemPos].done = !todos[itemPos].done;
+
+  // if 'Done' category is active, show 'done' items;
   if (document.getElementById("filter-done").classList.contains("active")) {
     filterDone(true);
   }
+  // if 'Not Done Yet' category is active, show 'not-done' items;
   if (document.getElementById("filter-not-done").classList.contains("active")) {
     filterNotDone(true);
   }
 
+  // check if all items are 'done' or 'not-done'
   let allDoneCount = 0;
   let allNotDoneCount = 0;
   for (let i = 0; i < todos.length; i++) {
     todos[i].done ? ++allDoneCount : ++allNotDoneCount;
   }
+  // If all items are 'done', disble 'mark all as done' button, else keep it enabled
   if (allDoneCount === todos.length) {
     document
       .querySelector("#more-opt-list li:first-child")
@@ -198,6 +225,7 @@ const toggleDone = thisNode => {
       .querySelector("#more-opt-list li:first-child")
       .setAttribute("onclick", "markAllDone(this)");
   }
+  // If all items are 'not-done', disble 'mark all as not done' button, else keep it enabled
   if (allNotDoneCount === todos.length) {
     document
       .querySelector("#more-opt-list li:nth-child(2)")
@@ -317,59 +345,62 @@ const toggleMoreOpt = thisNode => {
 // More options click events
 
 const markAllDone = thisNode => {
-  if (todos.length > 0) {
-    todos = todos.map(item => ({ ...item, done: true }));
-  }
+  todos = todos.map(item => ({ ...item, done: true }));
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].setAttribute("status", "Done");
     allItems[i]
       .querySelector("span:first-child i")
       .setAttribute("class", "fa-solid fa-circle-check clickable");
-    allItems[i].querySelector("span.item-value").style.textDecoration =
-      "line-through";
-    allItems[i].querySelector("span.item-value").style.color = "gray";
+    allItems[i].querySelector("div.item-value").classList.add("done");
+    allItems[i].querySelector("div.item-datetimestamp").classList.add("done");
   }
+
+  // When All/Done category is active, show 'done' items, else hide
   if (
     document.getElementById("filter-all").classList.contains("active") ||
     document.getElementById("filter-done").classList.contains("active")
   ) {
     filterDone(true);
   } else filterDone();
+
+  // disabling the mark-all-done button
   thisNode.setAttribute("class", "disabled");
   thisNode.removeAttribute("onclick");
   thisNode.nextElementSibling.setAttribute("class", "clickable");
   thisNode.nextElementSibling.setAttribute("onclick", "markAllNotDone(this)");
 };
+
 const markAllNotDone = thisNode => {
-  if (todos.length > 0) {
-    todos = todos.map(item => ({ ...item, done: false }));
-  }
+  todos = todos.map(item => ({ ...item, done: false }));
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].setAttribute("status", "Not-done");
     allItems[i]
       .querySelector("span:first-child i")
       .setAttribute("class", "fa-regular fa-circle clickable");
-    allItems[i].querySelector("span.item-value").style.textDecoration = "none";
-    allItems[i].querySelector("span.item-value").style.color = "black";
+    allItems[i].querySelector("div.item-value").classList.remove("done");
+    allItems[i].querySelector("div.item-datetimestamp").classList.remove("done");
   }
+
+  // When All/Not Done Yet category is active, show 'not-done' items, else hide
   if (
     document.getElementById("filter-all").classList.contains("active") ||
     document.getElementById("filter-not-done").classList.contains("active")
   ) {
     filterNotDone(true);
   } else filterNotDone();
+
+  // disabling the mark-all-done button
   thisNode.setAttribute("class", "disabled");
   thisNode.removeAttribute("onclick");
   thisNode.previousElementSibling.setAttribute("class", "clickable");
   thisNode.previousElementSibling.setAttribute("onclick", "markAllDone(this)");
 };
+
 const deleteAll = () => {
-  if (todos.length > 0) {
-    todos = [];
-    itemCount = 0;
-  }
+  todos = [];
+  itemCount = 0;
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].remove();

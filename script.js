@@ -1,16 +1,38 @@
 const createDayDate = () => {
   const thisDayDate = new Date();
-  const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Firday", "Saturday"];
+  const weekDays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Firday",
+    "Saturday",
+  ];
   const dayName = weekDays[thisDayDate.getDay()];
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const monthName = months[thisDayDate.getMonth()];
-  return (`${dayName}, ${monthName} ${thisDayDate.getDate()}, ${thisDayDate.getFullYear()}`);
-}
+  return `${dayName}, ${monthName} ${thisDayDate.getDate()}, ${thisDayDate.getFullYear()}`;
+};
 document.getElementById("day-date").innerHTML = `
-  ${createDayDate()}
+  <span class="material-icons">today</span> ${createDayDate()}
 `;
 setInterval(() => {
   document.getElementById("time-now").innerHTML = `
+    <span class="material-icons">schedule</span>
     ${new Date().toLocaleTimeString().substring(0, 8).trim()}
     <span>${new Date().toLocaleTimeString().substring(8).trim()}</span>
   `;
@@ -51,7 +73,10 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
       </span>
       <div class="item-wrap">
         <div class="item-value" onkeydown="actionOnKeydown(this)">${todoVal}</div>
-        <div class="item-datetimestamp">Created on ${todos[itemCount].createdDate} at ${todos[itemCount].createdTime.substr(0, 8)} ${todos[itemCount].createdTime.substr(-2)}</div>
+        <div class="item-datetimestamp">Created on ${todos[itemCount].createdDate
+      } at ${todos[itemCount].createdTime.substr(0, 8)} ${todos[
+        itemCount
+      ].createdTime.substr(-2)}</div>
       </div>
       <span class="action-icons set-1">
         <i class="fa-regular fa-pen-to-square clickable" title="Edit" onclick="editItem(this)"></i>
@@ -134,7 +159,10 @@ const cancelEdit = thisNode => {
 
 // Save/cancel on 'Enter/Excape' Keypress on edit mode
 const actionOnKeydown = thisNode => {
-  const itemPos = thisNode.parentElement.getAttribute("id").substring(5);
+  console.log(thisNode);
+  const itemPos = thisNode.parentElement.parentElement
+    .getAttribute("id")
+    .substring(5);
   if (window.event.key === "Enter") {
     window.event.preventDefault();
     todos[itemPos].alteredValue = thisNode.innerText;
@@ -143,7 +171,8 @@ const actionOnKeydown = thisNode => {
       toggleAlert("Changes Saved");
     }
     toggleEditAndIcons(
-      thisNode.nextElementSibling.nextElementSibling.firstElementChild,
+      thisNode.parentElement.nextElementSibling.nextElementSibling
+        .firstElementChild,
       itemPos
     );
   }
@@ -180,8 +209,12 @@ const toggleDone = thisNode => {
       "status",
       `${todos[itemPos].done ? "Not-done" : "Done"}`
     );
-    thisNode.parentElement.nextElementSibling.querySelector(".item-value").classList.remove("done");
-    thisNode.parentElement.nextElementSibling.querySelector(".item-datetimestamp").classList.remove("done");
+    thisNode.parentElement.nextElementSibling
+      .querySelector(".item-value")
+      .classList.remove("done");
+    thisNode.parentElement.nextElementSibling
+      .querySelector(".item-datetimestamp")
+      .classList.remove("done");
   } else {
     thisNode.setAttribute("class", "fa-solid fa-circle-check clickable");
     thisNode.setAttribute("title", "Click to mark as 'Not Done'");
@@ -189,8 +222,12 @@ const toggleDone = thisNode => {
       "status",
       `${todos[itemPos].done ? "Not-done" : "Done"}`
     );
-    thisNode.parentElement.nextElementSibling.querySelector(".item-value").classList.add("done");
-    thisNode.parentElement.nextElementSibling.querySelector(".item-datetimestamp").classList.add("done");
+    thisNode.parentElement.nextElementSibling
+      .querySelector(".item-value")
+      .classList.add("done");
+    thisNode.parentElement.nextElementSibling
+      .querySelector(".item-datetimestamp")
+      .classList.add("done");
   }
   todos[itemPos].done = !todos[itemPos].done;
 
@@ -380,7 +417,9 @@ const markAllNotDone = thisNode => {
       .querySelector("span:first-child i")
       .setAttribute("class", "fa-regular fa-circle clickable");
     allItems[i].querySelector("div.item-value").classList.remove("done");
-    allItems[i].querySelector("div.item-datetimestamp").classList.remove("done");
+    allItems[i]
+      .querySelector("div.item-datetimestamp")
+      .classList.remove("done");
   }
 
   // When All/Not Done Yet category is active, show 'not-done' items, else hide

@@ -43,6 +43,7 @@ body {
 	transform: translateX(-50%);
 	padding: 15px 20px;
 	background-color: aqua;
+  background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
 	width: max-content;
 	transition: all 0.3s ease-in-out;
 }
@@ -59,18 +60,42 @@ header #title {
 	border-bottom: 1px solid black;
 }
 
+header #day-date {
+	display: flex;
+	align-items: center;
+	column-gap: 5px;
+}
+
 header #date-time {
-  font-weight: 300;
 	display: flex;
 	justify-content: space-between;
+  font-weight: 300;
 	font-size: 22px;
 	margin-top: 5px;
 }
 
-header #time-now span {
+header #time-now {
+	display: flex;
+	align-items: center;
+	column-gap: 5px;
+}
+
+header #time-now span:last-child {
 	font-size: small;
 	position: relative;
 	top: -7px;
+}
+
+.material-icons {
+	/* background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%); */
+	background-image: linear-gradient(135deg, #fad7a1 10%, #e96d71 100%);
+	/* background-image: linear-gradient(to right, #ffc3a0 0%, #ffafbd 100%); */
+	background-size: 100%;
+	background-clip: text;
+	-webkit-background-clip: text;
+	-moz-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-moz-text-fill-color: transparent;
 }
 
 .container {
@@ -242,6 +267,10 @@ ul.todo-items > li:not(#filter-action-row):hover {
 
 #more-opt-list li.disabled:hover {
 	background: transparent;
+}
+
+ul.todo-items .item-wrap {
+  flex-grow: 1;
 }
 
 ul.todo-items .item-value {

@@ -13,7 +13,7 @@ body {
 	min-height: 100vh;
 	background: linear-gradient(320deg, #f27121, #e94057, #8a2387);
 	padding: 30px 0 100px;
-  overflow-x: hidden;
+	overflow-x: hidden;
 }
 
 .clickable {
@@ -27,9 +27,9 @@ body {
 .backdrop {
 	position: fixed;
 	top: 0;
-  bottom: 0;
+	bottom: 0;
 	left: 0;
-  right: 0;
+	right: 0;
 	/* width: 100vw;
 	height: 100%; */
 	background: rgb(0 0 0 / 0.5);
@@ -45,7 +45,7 @@ body {
 	transform: translateX(-50%);
 	padding: 15px 20px;
 	background-color: aqua;
-  background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
+	background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
 	width: max-content;
 	transition: all 0.3s ease-in-out;
 }
@@ -71,7 +71,7 @@ header #day-date {
 header #date-time {
 	display: flex;
 	justify-content: space-between;
-  font-weight: 300;
+	font-weight: 300;
 	font-size: 22px;
 	margin-top: 5px;
 }
@@ -133,7 +133,7 @@ header #time-now span:last-child {
 #todo-input-form input {
 	padding: 10px 15px;
 	flex-grow: 1;
-	border-radius: 7px 0 0 7px;
+	border-radius: 10px 0 0 10px;
 	border: none;
 	outline: none;
 }
@@ -148,8 +148,40 @@ header #time-now span:last-child {
 }
 
 .btn-submit {
+  background-image: linear-gradient(to right, #ff6a00 0%, #dc2430  51%, #7b4397  80%);
+	background-size: 800% 400%;
 	padding: 10px 15px;
-	border-radius: 0 7px 7px 0;
+	display: inline-block;
+	border: none;
+	border-radius: 0 10px 10px 0;
+	color: white;
+	transition: all 0.3s ease-in-out;
+	animation: gradient 10s infinite cubic-bezier(0.62, 0.28, 0.23, 0.99) both;
+}
+
+.btn-submit:hover {
+	animation: gradient 3s infinite;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+	transform: scale(1.05);
+}
+
+.btn-submit:active {
+	animation: gradient 0.3s infinite;
+	transform: scale(0.8);
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
 }
 
 ul.todo-items {
@@ -272,7 +304,7 @@ ul.todo-items > li:not(#filter-action-row):hover {
 }
 
 ul.todo-items .item-wrap {
-  flex-grow: 1;
+	flex-grow: 1;
 }
 
 ul.todo-items .item-value {
@@ -285,8 +317,8 @@ ul.todo-items .item-value:focus {
 }
 
 ul.todo-items .item-value.done {
-  color: gray;
-  text-decoration: line-through;
+	color: gray;
+	text-decoration: line-through;
 }
 
 ul.todo-items .item-datetimestamp {
@@ -296,7 +328,7 @@ ul.todo-items .item-datetimestamp {
 }
 
 ul.todo-items .item-datetimestamp.done {
-  text-decoration: line-through;
+	text-decoration: line-through;
 }
 
 ul.todo-items .action-icons {

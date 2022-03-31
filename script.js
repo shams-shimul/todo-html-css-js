@@ -6,7 +6,7 @@ const createDayDate = () => {
     "Tuesday",
     "Wednesday",
     "Thursday",
-    "Firday",
+    "Friday",
     "Saturday",
   ];
   const dayName = weekDays[thisDayDate.getDay()];

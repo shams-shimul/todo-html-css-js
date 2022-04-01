@@ -20,10 +20,9 @@ const meteor = _ => {
     rainBg.appendChild(drop);
     count++;
   }
-}
+};
 meteor();
 /* JS for meteor rain effect */
-
 
 /* JS for To-Do */
 
@@ -70,8 +69,44 @@ setInterval(() => {
 
 let itemCount = 0;
 const alreadyThere = JSON.parse(localStorage.getItem("korteHobe"));
-console.log(alreadyThere);
+
 let todos = [];
+if (alreadyThere != null && alreadyThere.length > 0) {
+  todos = alreadyThere;
+  document.getElementById("filter-action-row").style.display = "flex";
+  document.querySelector(".todo-items").style.marginBottom = "16px";
+  alreadyThere.map((item, index) => {
+    const { valueBeforeEdit, done, createdDate, createdTime } = item;
+    const newElem = document.createElement("li");
+    newElem.setAttribute("id", `item-${index}`);
+    newElem.setAttribute("status", `${done ? "Done" : "Not-done"}`);
+    newElem.innerHTML = `
+      <span>
+        <i class="${done
+        ? "toggle checked fa solid fa-circle-check"
+        : "toggle fa-regular fa-circle"
+      } clickable" title="Click to mark as ${done ? "'Not Done'" : "'Done'"
+      }" onclick="toggleDone(this)"></i>
+      </span>
+      <div class="item-wrap">
+        <div class="item-value" onkeydown="actionOnKeydown(this)">${valueBeforeEdit}</div>
+        <div class="item-datetimestamp">Created on ${createdDate} at ${createdTime.substr(
+        0,
+        8
+      )} ${createdTime.substr(-2)}</div>
+      </div>
+      <span class="action-icons set-1">
+        <i class="fa-regular fa-pen-to-square clickable" title="Edit" onclick="editItem(this)"></i>
+        <i class="fa-regular fa-trash-can clickable" title="Delete" onclick="deleteItem(this)"></i>
+      </span>
+      <span class="action-icons set-2">
+        <i class="fa-regular fa-floppy-disk clickable" title="Save" onclick="saveEdit(this)"></i>
+        <i class="fa-solid fa-xmark clickable" title="Cancel" onclick="cancelEdit(this)"></i>
+      </span>
+    `;
+    document.querySelector("ul.todo-items").appendChild(newElem);
+  });
+}
 document.getElementById("todo").focus();
 document.getElementById("todo-input-form").addEventListener("submit", e => {
   e.preventDefault();
@@ -253,7 +288,10 @@ const toggleDone = thisNode => {
       .querySelector(".item-datetimestamp")
       .classList.remove("done");
   } else {
-    thisNode.setAttribute("class", "toggle checked fa-solid fa-circle-check clickable");
+    thisNode.setAttribute(
+      "class",
+      "toggle checked fa-solid fa-circle-check clickable"
+    );
     thisNode.setAttribute("title", "Click to mark as 'Not Done'");
     thisNode.parentElement.parentElement.setAttribute(
       "status",
@@ -427,7 +465,10 @@ const markAllDone = thisNode => {
     allItems[i].setAttribute("status", "Done");
     allItems[i]
       .querySelector("span:first-child i")
-      .setAttribute("class", "toggle checked fa-solid fa-circle-check clickable");
+      .setAttribute(
+        "class",
+        "toggle checked fa-solid fa-circle-check clickable"
+      );
     allItems[i].querySelector("div.item-value").classList.add("done");
     allItems[i].querySelector("div.item-datetimestamp").classList.add("done");
   }

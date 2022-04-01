@@ -1,3 +1,31 @@
+// meteor rain effect
+const meteor = _ => {
+  let amount = 150;
+  let rainBg = document.getElementById("rain-bg");
+  let count = 0;
+
+  while (count < amount) {
+    let drop = document.createElement("i");
+    drop.setAttribute("class", "meteor");
+    let size = Math.random() * 5;
+    let posX = Math.floor(Math.random() * window.innerWidth);
+    let delay = Math.random() * -20;
+    let duration = Math.random() * 5;
+
+    drop.style.width = `${0.1 + size}px`;
+    drop.style.left = `${posX}px`;
+    drop.style.animationDelay = `${delay}s`;
+    drop.style.animationDuration = `${1 + duration}s`;
+
+    rainBg.appendChild(drop);
+    count++;
+  }
+}
+meteor();
+
+
+// To-do JS start
+
 const createDayDate = () => {
   const thisDayDate = new Date();
   const weekDays = [
@@ -66,8 +94,8 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
     newElem.innerHTML = `
       <span>
         <i class="${todos[itemCount].done
-        ? "fa solid fa-circle-check"
-        : "fa-regular fa-circle"
+        ? "toggle checked fa solid fa-circle-check"
+        : "toggle fa-regular fa-circle"
       } clickable" title="Click to mark as ${todos[itemCount].done ? "'Not Done'" : "'Done'"
       }" onclick="toggleDone(this)"></i>
       </span>
@@ -203,7 +231,7 @@ const toggleDone = thisNode => {
     .getAttribute("id")
     .substring(5);
   if (todos[itemPos].done) {
-    thisNode.setAttribute("class", "fa-regular fa-circle clickable");
+    thisNode.setAttribute("class", "toggle fa-regular fa-circle clickable");
     thisNode.setAttribute("title", "Click to mark as 'Done'");
     thisNode.parentElement.parentElement.setAttribute(
       "status",
@@ -216,7 +244,7 @@ const toggleDone = thisNode => {
       .querySelector(".item-datetimestamp")
       .classList.remove("done");
   } else {
-    thisNode.setAttribute("class", "fa-solid fa-circle-check clickable");
+    thisNode.setAttribute("class", "toggle checked fa-solid fa-circle-check clickable");
     thisNode.setAttribute("title", "Click to mark as 'Not Done'");
     thisNode.parentElement.parentElement.setAttribute(
       "status",
@@ -388,7 +416,7 @@ const markAllDone = thisNode => {
     allItems[i].setAttribute("status", "Done");
     allItems[i]
       .querySelector("span:first-child i")
-      .setAttribute("class", "fa-solid fa-circle-check clickable");
+      .setAttribute("class", "toggle checked fa-solid fa-circle-check clickable");
     allItems[i].querySelector("div.item-value").classList.add("done");
     allItems[i].querySelector("div.item-datetimestamp").classList.add("done");
   }
@@ -415,7 +443,7 @@ const markAllNotDone = thisNode => {
     allItems[i].setAttribute("status", "Not-done");
     allItems[i]
       .querySelector("span:first-child i")
-      .setAttribute("class", "fa-regular fa-circle clickable");
+      .setAttribute("class", "toggle fa-regular fa-circle clickable");
     allItems[i].querySelector("div.item-value").classList.remove("done");
     allItems[i]
       .querySelector("div.item-datetimestamp")

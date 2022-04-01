@@ -1,4 +1,4 @@
-// meteor rain effect
+/* JS for meteor rain effect */
 const meteor = _ => {
   let amount = 150;
   let rainBg = document.getElementById("rain-bg");
@@ -22,10 +22,12 @@ const meteor = _ => {
   }
 }
 meteor();
+/* JS for meteor rain effect */
 
 
-// To-do JS start
+/* JS for To-Do */
 
+// Handling dates and times
 const createDayDate = () => {
   const thisDayDate = new Date();
   const weekDays = [
@@ -67,6 +69,8 @@ setInterval(() => {
 }, 1000);
 
 let itemCount = 0;
+const alreadyThere = JSON.parse(localStorage.getItem("korteHobe"));
+console.log(alreadyThere);
 let todos = [];
 document.getElementById("todo").focus();
 document.getElementById("todo-input-form").addEventListener("submit", e => {
@@ -85,6 +89,7 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
       createdTime: new Date().toLocaleTimeString(),
       editModeOn: false,
     });
+    localStorage.setItem("korteHobe", JSON.stringify(todos));
     const newElem = document.createElement("li");
     newElem.setAttribute("id", `item-${itemCount}`);
     newElem.setAttribute(
@@ -149,6 +154,7 @@ const deleteItem = thisNode => {
     document.querySelector(".todo-items").style.marginBottom = "16px";
   }
   todos.splice(itemPos, 1);
+  localStorage.setItem("korteHobe", JSON.stringify(todos));
   thisNode.parentElement.parentElement.remove();
   const allRows = document.querySelectorAll(
     ".todo-items>li:not(#filter-action-row)"
@@ -170,8 +176,11 @@ const saveEdit = thisNode => {
     thisNode.parentElement.parentElement.querySelector(".item-value").innerText;
   if (todos[itemPos].alteredValue !== todos[itemPos].valueBeforeEdit) {
     todos[itemPos].valueBeforeEdit = todos[itemPos].alteredValue;
+    todos[itemPos].createdDate = createDayDate();
+    todos[itemPos].createdTime = new Date().toLocaleTimeString();
     toggleAlert("Changes Saved");
   }
+  localStorage.setItem("korteHobe", JSON.stringify(todos));
   toggleEditAndIcons(thisNode, itemPos);
 };
 
@@ -187,7 +196,6 @@ const cancelEdit = thisNode => {
 
 // Save/cancel on 'Enter/Excape' Keypress on edit mode
 const actionOnKeydown = thisNode => {
-  console.log(thisNode);
   const itemPos = thisNode.parentElement.parentElement
     .getAttribute("id")
     .substring(5);
@@ -212,6 +220,7 @@ const actionOnKeydown = thisNode => {
       itemPos
     );
   }
+  localStorage.setItem("korteHobe", JSON.stringify(todos));
 };
 
 // Show/Hide alert from top on adding/editing/deleting of items
@@ -258,6 +267,7 @@ const toggleDone = thisNode => {
       .classList.add("done");
   }
   todos[itemPos].done = !todos[itemPos].done;
+  localStorage.setItem("korteHobe", JSON.stringify(todos));
 
   // if 'Done' category is active, show 'done' items;
   if (document.getElementById("filter-done").classList.contains("active")) {
@@ -411,6 +421,7 @@ const toggleMoreOpt = thisNode => {
 
 const markAllDone = thisNode => {
   todos = todos.map(item => ({ ...item, done: true }));
+  localStorage.setItem("korteHobe", JSON.stringify(todos));
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].setAttribute("status", "Done");
@@ -438,6 +449,7 @@ const markAllDone = thisNode => {
 
 const markAllNotDone = thisNode => {
   todos = todos.map(item => ({ ...item, done: false }));
+  localStorage.setItem("korteHobe", JSON.stringify(todos));
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].setAttribute("status", "Not-done");
@@ -467,6 +479,7 @@ const markAllNotDone = thisNode => {
 
 const deleteAll = () => {
   todos = [];
+  localStorage.setItem("korteHobe", JSON.stringify(todos));
   itemCount = 0;
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {

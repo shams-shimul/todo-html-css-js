@@ -76,39 +76,13 @@ if (alreadyThere != null && alreadyThere.length > 0) {
   todos = alreadyThere;
   document.getElementById("filter-action-row").style.display = "flex";
   document.querySelector(".todo-items").style.marginBottom = "16px";
+  checkAllItemStatus();
   alreadyThere.map((item, index) => {
     const { valueBeforeEdit, done, createdDate, createdTime } = item;
-    const newElem = document.createElement("li");
-    newElem.setAttribute("id", `item-${index}`);
-    newElem.setAttribute("status", `${done ? "Done" : "Not-done"}`);
-    newElem.innerHTML = `
-      <span>
-        <i class="${done
-        ? "toggle checked fa solid fa-circle-check"
-        : "toggle fa-regular fa-circle"
-      } clickable" title="Click to mark as ${done ? "'Not Done'" : "'Done'"
-      }" onclick="toggleDone(this)"></i>
-      </span>
-      <div class="item-wrap">
-        <div class="item-value" onkeydown="actionOnKeydown(this)">${valueBeforeEdit}</div>
-        <div class="item-datetimestamp">Created on ${createdDate} at ${createdTime.substr(
-        0,
-        8
-      )} ${createdTime.substr(-2)}</div>
-      </div>
-      <span class="action-icons set-1">
-        <i class="fa-regular fa-pen-to-square clickable" title="Edit" onclick="editItem(this)"></i>
-        <i class="fa-regular fa-trash-can clickable" title="Delete" onclick="deleteItem(this)"></i>
-      </span>
-      <span class="action-icons set-2">
-        <i class="fa-regular fa-floppy-disk clickable" title="Save" onclick="saveEdit(this)"></i>
-        <i class="fa-solid fa-xmark clickable" title="Cancel" onclick="cancelEdit(this)"></i>
-      </span>
-    `;
-    document.querySelector("ul.todo-items").appendChild(newElem);
+    createAndInsertLi(index, valueBeforeEdit, done, createdDate, createdTime);
   });
 }
-document.getElementById("todo").focus();
+
 document.getElementById("todo-input-form").addEventListener("submit", e => {
   e.preventDefault();
   const todoVal = document.getElementById("todo").value;
@@ -126,37 +100,13 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
       editModeOn: false,
     });
     localStorage.setItem("korteHobe", JSON.stringify(todos));
-    const newElem = document.createElement("li");
-    newElem.setAttribute("id", `item-${itemCount}`);
-    newElem.setAttribute(
-      "status",
-      `${todos[itemCount].done ? "Done" : "Not-done"}`
+    createAndInsertLi(
+      itemCount,
+      todoVal,
+      false,
+      todos[itemCount].createdDate,
+      todos[itemCount].createdTime
     );
-    newElem.innerHTML = `
-      <span>
-        <i class="${todos[itemCount].done
-        ? "toggle checked fa solid fa-circle-check"
-        : "toggle fa-regular fa-circle"
-      } clickable" title="Click to mark as ${todos[itemCount].done ? "'Not Done'" : "'Done'"
-      }" onclick="toggleDone(this)"></i>
-      </span>
-      <div class="item-wrap">
-        <div class="item-value" onkeydown="actionOnKeydown(this)">${todoVal}</div>
-        <div class="item-datetimestamp">Created on ${todos[itemCount].createdDate
-      } at ${todos[itemCount].createdTime.substr(0, 8)} ${todos[
-        itemCount
-      ].createdTime.substr(-2)}</div>
-      </div>
-      <span class="action-icons set-1">
-        <i class="fa-regular fa-pen-to-square clickable" title="Edit" onclick="editItem(this)"></i>
-        <i class="fa-regular fa-trash-can clickable" title="Delete" onclick="deleteItem(this)"></i>
-      </span>
-      <span class="action-icons set-2">
-        <i class="fa-regular fa-floppy-disk clickable" title="Save" onclick="saveEdit(this)"></i>
-        <i class="fa-solid fa-xmark clickable" title="Cancel" onclick="cancelEdit(this)"></i>
-      </span>
-    `;
-    document.querySelector("ul.todo-items").appendChild(newElem);
     document.getElementById("todo").value = "";
     toggleAlert("Item Added");
     itemCount++;
@@ -180,16 +130,16 @@ const deleteItem = thisNode => {
     thisNode.parentElement.parentElement.getAttribute("id").substring(5)
   );
   --itemCount;
+  todos.splice(itemPos, 1);
   if (itemCount === 0) {
     document.getElementById("filter-action-row").style.display = "none";
+    document.querySelector(".todo-items").style.marginBottom = "0px";
     document.getElementById("more-btn").classList.remove("open");
     document
       .querySelector("#more-btn i")
       .setAttribute("class", "fa-solid fa-ellipsis");
     document.getElementById("more-opt").style.height = "0px";
-    document.querySelector(".todo-items").style.marginBottom = "16px";
   }
-  todos.splice(itemPos, 1);
   localStorage.setItem("korteHobe", JSON.stringify(todos));
   thisNode.parentElement.parentElement.remove();
   const allRows = document.querySelectorAll(
@@ -317,44 +267,7 @@ const toggleDone = thisNode => {
     filterNotDone(true);
   }
 
-  // check if all items are 'done' or 'not-done'
-  let allDoneCount = 0;
-  let allNotDoneCount = 0;
-  for (let i = 0; i < todos.length; i++) {
-    todos[i].done ? ++allDoneCount : ++allNotDoneCount;
-  }
-  // If all items are 'done', disble 'mark all as done' button, else keep it enabled
-  if (allDoneCount === todos.length) {
-    document
-      .querySelector("#more-opt-list li:first-child")
-      .setAttribute("class", "disabled");
-    document
-      .querySelector("#more-opt-list li:first-child")
-      .removeAttribute("onclick");
-  } else {
-    document
-      .querySelector("#more-opt-list li:first-child")
-      .setAttribute("class", "clickable");
-    document
-      .querySelector("#more-opt-list li:first-child")
-      .setAttribute("onclick", "markAllDone(this)");
-  }
-  // If all items are 'not-done', disble 'mark all as not done' button, else keep it enabled
-  if (allNotDoneCount === todos.length) {
-    document
-      .querySelector("#more-opt-list li:nth-child(2)")
-      .setAttribute("class", "disabled");
-    document
-      .querySelector("#more-opt-list li:nth-child(2)")
-      .removeAttribute("onclick");
-  } else {
-    document
-      .querySelector("#more-opt-list li:nth-child(2)")
-      .setAttribute("class", "clickable");
-    document
-      .querySelector("#more-opt-list li:nth-child(2)")
-      .setAttribute("onclick", "markAllNotDone(this)");
-  }
+  checkAllItemStatus();
 };
 
 // Toggle between edit/normal mode and action icons

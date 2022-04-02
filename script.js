@@ -82,7 +82,7 @@ const createAndInsertLi = (id, stringVal, status, date, time) => {
     <div class="item-wrap">
       <div class="item-value ${status && 'done'}" onkeydown="actionOnKeydown(this)">${stringVal}</div>
       <div class="item-datetimestamp ${status && 'done'}">
-        Created on ${date} at ${time.substr(0, 8)} ${time.substr(-2)}
+        Created on ${date} at ${time}
       </div>
     </div>
     <span class="action-icons set-1">
@@ -170,6 +170,10 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
       editModeOn: false,
     });
     localStorage.setItem("korteHobe", JSON.stringify(todos));
+    document.getElementById("filter-all").classList.add("active");
+    document.getElementById("filter-done").classList.remove("active");
+    document.getElementById("filter-not-done").classList.remove("active");
+    filterAll();
     createAndInsertLi(
       itemCount,
       todoVal,
@@ -230,6 +234,9 @@ const saveEdit = thisNode => {
     todos[itemPos].valueBeforeEdit = todos[itemPos].alteredValue;
     todos[itemPos].createdDate = createDayDate();
     todos[itemPos].createdTime = new Date().toLocaleTimeString();
+    thisNode.parentElement.parentElement.querySelector(".item-datetimestamp").innerHTML = `
+      Created on ${todos[itemPos].createdDate} at ${todos[itemPos].createdTime}
+    `
     toggleAlert("Changes Saved");
   }
   localStorage.setItem("korteHobe", JSON.stringify(todos));

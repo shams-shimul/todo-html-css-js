@@ -68,10 +68,9 @@ setInterval(() => {
 }, 1000);
 
 let itemCount = 0;
-let todos = [];
-
-// Retrieving from localStorage
 const alreadyThere = JSON.parse(localStorage.getItem("korteHobe"));
+
+let todos = [];
 if (alreadyThere != null && alreadyThere.length > 0) {
   todos = alreadyThere;
   document.getElementById("filter-action-row").style.display = "flex";

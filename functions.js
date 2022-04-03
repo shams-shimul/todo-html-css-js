@@ -43,8 +43,8 @@ const createAndInsertLi = (id, stringVal, status, date, time) => {
     }" onclick="toggleDone(this)"></i>
     </span>
     <div class="item-wrap">
-      <div class="item-value ${status && 'done'}" onkeydown="actionOnKeydown(this)">${stringVal}</div>
-      <div class="item-datetimestamp ${status && 'done'}">
+      <div class="${status ? 'item-value done' : 'item-value'}" onkeydown="actionOnKeydown(this)">${stringVal}</div>
+      <div class="${status ? 'item-datetimestamp done' : 'item-datetimestamp'}">
         Created on ${date} at ${time}
       </div>
     </div>
@@ -104,9 +104,7 @@ const checkAllItemStatus = () => {
 
 // Activate edit mode and toggle action icons
 const editItem = thisNode => {
-  const itemPos = thisNode.parentElement.parentElement
-    .getAttribute("id")
-    .substring(5);
+  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
   toggleEditAndIcons(thisNode, itemPos);
 };
 

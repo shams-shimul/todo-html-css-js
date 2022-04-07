@@ -41,16 +41,20 @@ let itemCount = 0;
 let todos = [];
 const alreadyThere = JSON.parse(localStorage.getItem("korteHobe"));
 
-if (alreadyThere != null && alreadyThere.length > 0) {
-  todos = alreadyThere;
-  document.getElementById("filter-action-row").style.display = "flex";
-  document.querySelector(".todo-items").style.marginBottom = "16px";
-  checkAllItemStatus();
-  alreadyThere.map((item, index) => {
-    const { valueBeforeEdit, done, createdDate, createdTime } = item;
-    createAndInsertLi(index, valueBeforeEdit, done, createdDate, createdTime);
-  });
+const showAlreadyThere = () => {
+  if (alreadyThere != null && alreadyThere.length > 0) {
+    todos = alreadyThere;
+    document.getElementById("filter-action-row").style.display = "flex";
+    document.querySelector(".todo-items").style.marginBottom = "16px";
+    checkAllItemStatus();
+    alreadyThere.map((item, index) => {
+      const { valueBeforeEdit, done, createdDate, createdTime } = item;
+      createAndInsertLi(index, valueBeforeEdit, done, createdDate, createdTime);
+    });
+  }
 }
+
+showAlreadyThere();
 
 document.getElementById("todo-input-form").addEventListener("submit", e => {
   e.preventDefault();
@@ -117,3 +121,32 @@ document.getElementById("filter-not-done").addEventListener("click", () => {
 
 // Dynamic year for footer
 document.getElementById("this-year").innerText = new Date().getFullYear();
+
+// Search
+const searchItem = (input) => {
+  // console.log(window.event);
+  const searchStr = input.value.toLowerCase();
+  const itemNodes = document.getElementsByClassName("item-value");
+  let matchNotFound = 0;
+  for (let i = 0; i < itemNodes.length; i++) {
+    if (itemNodes[i].innerText.toLowerCase().includes(searchStr)) {
+      matchNotFound = 0;
+      itemNodes[i].parentElement.parentElement.style.display = "flex";
+    } else {
+      matchNotFound++;
+      itemNodes[i].parentElement.parentElement.style.display = "none";
+    }
+  }
+  if (matchNotFound === todos.length) {
+    document.querySelector("ul.todo-items").innerHTML = `
+      <li id="search-result">
+        <i class="fa-solid fa-circle-exclamation"></i> No such items found!
+      </li>
+    `;
+  } else {
+    if (document.getElementById("search-result")) {
+      document.getElementById("search-result").remove();
+      showAlreadyThere();
+    }
+  }
+}

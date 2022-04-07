@@ -55,40 +55,40 @@
 				</form>
 			</section>
 			<section>
+        <div id="filter-action-row">
+          <input type="text" id="search" placeholder="🔎 Search..." onkeyup="searchItem(this)">
+          <button class="filter-btn clickable active" id="filter-all">
+            All
+          </button>
+          <button class="filter-btn clickable" id="filter-done">Done</button>
+          <button class="filter-btn clickable" id="filter-not-done">
+            Not Done Yet
+          </button>
+          <button
+            class="clickable"
+            id="more-btn"
+            title="More options"
+            onclick="toggleMoreOpt(this)"
+          >
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+          <div id="more-opt">
+            <ul id="more-opt-list">
+              <li>
+                <i class="fa-solid fa-check-double"></i> Mark all as 'Done'
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-notch"></i> Mark all as 'Not Done'
+              </li>
+              <hr />
+              <li class="clickable" onclick="deleteAll()">
+                <i class="fa-solid fa-trash-can-arrow-up"></i> Delete all at
+                once
+              </li>
+            </ul>
+          </div>
+        </div>
 				<ul class="todo-items">
-					<li id="filter-action-row">
-						<button class="filter-btn clickable active" id="filter-all">
-							All
-						</button>
-						<button class="filter-btn clickable" id="filter-done">Done</button>
-						<button class="filter-btn clickable" id="filter-not-done">
-							Not Done Yet
-						</button>
-						<span style="flex-grow: 1"></span>
-						<button
-							class="clickable"
-							id="more-btn"
-							title="More options"
-							onclick="toggleMoreOpt(this)"
-						>
-							<i class="fa-solid fa-ellipsis"></i>
-						</button>
-					</li>
-					<div id="more-opt">
-						<ul id="more-opt-list">
-							<li>
-								<i class="fa-solid fa-check-double"></i> Mark all as 'Done'
-							</li>
-							<li>
-								<i class="fa-solid fa-circle-notch"></i> Mark all as 'Not Done'
-							</li>
-							<hr />
-							<li class="clickable" onclick="deleteAll()">
-								<i class="fa-solid fa-trash-can-arrow-up"></i> Delete all at
-								once
-							</li>
-						</ul>
-					</div>
 				</ul>
 			</section>
 		</main>

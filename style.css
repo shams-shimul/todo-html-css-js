@@ -18,54 +18,54 @@ body {
 /* CSS starts for meteor rain effect  */
 
 #rain-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transform: rotate(15deg);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	transform: rotate(15deg);
 }
 
 i.meteor {
-  position: absolute;
-  height: 160px;
-  background: linear-gradient(transparent, rgb(255 255 255 / 0.4));
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  transform: rotate(15deg);
-  animation: raining 5s linear Infinite;
+	position: absolute;
+	height: 160px;
+	background: linear-gradient(transparent, rgb(255 255 255 / 0.4));
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	transform: rotate(15deg);
+	animation: raining 5s linear Infinite;
 }
 @-moz-keyframes raining {
-  0% {
-    transform: translateY(-160px);
-  }
-  100% {
-    transform: translateY(calc(100vh + 160px));
-  }
+	0% {
+		transform: translateY(-160px);
+	}
+	100% {
+		transform: translateY(calc(100vh + 160px));
+	}
 }
 @-webkit-keyframes raining {
-  0% {
-    transform: translateY(-160px);
-  }
-  100% {
-    transform: translateY(calc(100vh + 160px));
-  }
+	0% {
+		transform: translateY(-160px);
+	}
+	100% {
+		transform: translateY(calc(100vh + 160px));
+	}
 }
 @-o-keyframes raining {
-  0% {
-    transform: translateY(-160px);
-  }
-  100% {
-    transform: translateY(calc(100vh + 160px));
-  }
+	0% {
+		transform: translateY(-160px);
+	}
+	100% {
+		transform: translateY(calc(100vh + 160px));
+	}
 }
 @keyframes raining {
-  0% {
-    transform: translateY(-160px);
-  }
-  100% {
-    transform: translateY(calc(100vh + 160px));
-  }
+	0% {
+		transform: translateY(-160px);
+	}
+	100% {
+		transform: translateY(calc(100vh + 160px));
+	}
 }
 
 /* CSS ends for meteor rain effect  */
@@ -243,13 +243,18 @@ header #time-now span:last-child {
 	}
 }
 
+#filter-action-row {
+  position: relative;
+	padding: 10px;
+	display: none;
+	justify-content: space-between;
+	align-items: center;
+  margin-top: 16px;
+}
+
 ul.todo-items {
 	list-style-type: none;
 	position: relative;
-}
-
-ul.todo-items > li#filter-action-row {
-	display: none;
 }
 
 ul.todo-items > li {
@@ -261,20 +266,27 @@ ul.todo-items > li {
 	transition: transform 0.3s ease-in-out;
 }
 
-ul.todo-items > li:first-child {
-	margin-top: 16px;
-}
-
-ul.todo-items > li:not(#filter-action-row):hover {
+ul.todo-items > li:not(#search-result):hover {
 	background-color: bisque;
 	transform: scale(1.05);
 }
 
-.filter-btn {
+#search-result {
+  justify-content: center;
+}
+
+#search-result i {
+  color: orangered;
+}
+
+.filter-btn,
+#search {
 	font-size: small;
 	padding: 0 5px;
 	border-radius: 5px;
 	border: 1px solid black;
+	white-space: nowrap;
+	outline: none;
 }
 
 .filter-btn.active {
@@ -282,14 +294,19 @@ ul.todo-items > li:not(#filter-action-row):hover {
 	color: white;
 }
 
+#search {
+	border: 1px solid white;
+}
+
 #more-btn {
-	width: 25px;
-	height: 25px;
+	width: 22px;
+	height: 22px;
 	border-radius: 50px;
 	border: 1px solid transparent;
 	text-align: center;
 	overflow: visible;
 	outline: none;
+	position: relative;
 	transition: all 0.3s ease;
 }
 
@@ -304,6 +321,10 @@ ul.todo-items > li:not(#filter-action-row):hover {
 
 #more-btn i {
 	color: gray;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 #more-btn.open i,
@@ -360,7 +381,7 @@ ul.todo-items > li:not(#filter-action-row):hover {
 }
 
 ul.todo-items .toggle {
-  background-image: linear-gradient(
+	background-image: linear-gradient(
 		to right,
 		#200122 0%,
 		#6f0000 51%,

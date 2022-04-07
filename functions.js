@@ -123,7 +123,7 @@ const deleteItem = thisNode => {
   localStorage.setItem("korteHobe", JSON.stringify(todos));
   thisNode.parentElement.parentElement.remove();
   const allRows = document.querySelectorAll(
-    ".todo-items>li:not(#filter-action-row)"
+    ".todo-items>li"
   );
   for (let i = 0; i < todos.length; i++) {
     if (i === itemPos || i > itemPos) {

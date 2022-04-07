@@ -289,11 +289,11 @@ const filterNotDone = allOrNotdone => {
 };
 
 // Toggle show/hide of more options
-const moreOptListHeight = document.getElementById("more-opt-list").clientHeight;
+const moreOptListHeight = document.getElementById("more-opt-list");
 const openMoreOptList = () => {
   document.getElementById("more-btn").classList.add("open");
   document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-xmark close-more");
-  document.getElementById("more-opt").style.height = `${moreOptListHeight}px`;
+  document.getElementById("more-opt").style.height = `${moreOptListHeight.clientHeight}px`;
 }
 const closeMoreOptList = () => {
   document.getElementById("more-btn").classList.remove("open");

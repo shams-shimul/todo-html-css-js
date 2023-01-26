@@ -25,6 +25,7 @@ const meteor = _ => {
   }
 };
 meteor();
+window.addEventListener('resize', meteor)
 /* JS for meteor rain effect */
 
 /* JS for To-Do */

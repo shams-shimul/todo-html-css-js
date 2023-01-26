@@ -1,3 +1,6 @@
+// initiate feather icons
+feather.replace()
+
 /* JS for meteor rain effect */
 const meteor = _ => {
   let amount = 150;
@@ -118,6 +121,12 @@ document.getElementById("filter-not-done").addEventListener("click", () => {
 });
 
 // Close more-opt-list on click outside more-opt button
+document.addEventListener("click", e => {
+  if (e.target.closest('#more-btn, #more-opt-list')) {
+    return
+  }
+  closeMoreOptList()
+})
 
 // Dynamic year for footer
 document.getElementById("this-year").innerText = new Date().getFullYear();

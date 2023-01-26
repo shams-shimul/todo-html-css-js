@@ -292,12 +292,12 @@ const filterNotDone = allOrNotdone => {
 const moreOptListHeight = document.getElementById("more-opt-list");
 const openMoreOptList = () => {
   document.getElementById("more-btn").classList.add("open");
-  document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-xmark close-more");
+  document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-xmark fa-lg close-more");
   document.getElementById("more-opt").style.height = `${moreOptListHeight.clientHeight}px`;
 }
 const closeMoreOptList = () => {
   document.getElementById("more-btn").classList.remove("open");
-  document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-ellipsis");
+  document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-bars fa-lg");
   document.getElementById("more-opt").style.height = "0px";
 }
 const toggleMoreOpt = thisNode => {

@@ -4,73 +4,64 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<title>TO-DO by Shams Shimul</title>
-		<meta name="description" content="" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!-- font awesome -->
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-			integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-			crossorigin="anonymous"
-			referrerpolicy="no-referrer"
-		/>
-		<!-- Google Icons -->
-		<link
-			href="https://fonts.googleapis.com/icon?family=Material+Icons"
-			rel="stylesheet"
-		/>
-		<!-- Custom CSS -->
-		<link rel="stylesheet" href="./style.css" />
-	</head>
 
-	<body>
-		<!--[if lt IE 7]>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>TO-DO by Shams Shimul</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Feather icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <!--[if lt IE 7]>
 			<p class="browsehappy">
 				You are using an <strong>outdated</strong> browser. Please
 				<a href="#">upgrade your browser</a> to improve your experience.
 			</p>
 		<![endif]-->
     <div id="rain-bg"></div>
-		<header>
-			<div id="title">Today's TO-DO</div>
-			<div id="date-time">
-				<div id="day-date"></div>
-				<div id="time-now"></div>
-			</div>
-		</header>
-		<main class="container">
-			<section class="todo-input">
-				<form id="todo-input-form">
-					<input
-						type="text"
-						name="todo"
-						id="todo"
-						placeholder="Your next big thing to do..."
-					/>
-					<button type="submit" class="btn-submit clickable">Add</button>
-				</form>
-			</section>
-			<section>
+    <header>
+      <div id="title">Today's TO-DO</div>
+      <div id="date-time">
+        <div id="day-date"></div>
+        <div id="time-now"></div>
+      </div>
+    </header>
+    <main class="container">
+      <section class="todo-input">
+        <form id="todo-input-form">
+          <input type="text" name="todo" id="todo" placeholder="Your next big thing to do..." />
+          <button type="submit" class="btn-submit clickable">Add</button>
+        </form>
+      </section>
+      <section>
         <div id="filter-action-row">
-          <input type="text" id="search" placeholder="🔎 Search..." onkeyup="searchItem(this)">
+          <div class="search">
+            <input type="text" id="search" placeholder="Search..." onkeyup="searchItem(this)">
+            <div class="search-icon">
+              <i data-feather="search"></i>
+            </div>
+          </div>
           <button class="filter-btn clickable active" id="filter-all">
             All
           </button>
           <button class="filter-btn clickable" id="filter-done">Done</button>
           <button class="filter-btn clickable" id="filter-not-done">
-            Not Done Yet
+            Not Done
           </button>
-          <button
-            class="clickable"
-            id="more-btn"
-            title="More options"
-            onclick="toggleMoreOpt(this)"
-          >
-            <i class="fa-solid fa-ellipsis"></i>
+          <button class="clickable" id="more-btn" title="More options" onclick="toggleMoreOpt(this)">
+            <i class="fa-solid fa-bars fa-lg"></i>
           </button>
           <div id="more-opt">
             <ul id="more-opt-list">
@@ -88,17 +79,18 @@
             </ul>
           </div>
         </div>
-				<ul class="todo-items">
-				</ul>
-			</section>
-		</main>
-		<footer>
-			No Copyright &copy; <span id="this-year"></span> | Made with ❤ by
-			<a href="https://github.com/shams-shimul" target="_blank">Shams Shimul</a>
-		</footer>
-		<div class="backdrop"></div>
-		<div class="alert"></div>
-		<script src="./functions.js" type="text/javascript"></script>
-		<script src="./script.js" type="text/javascript"></script>
-	</body>
+        <ul class="todo-items">
+        </ul>
+      </section>
+    </main>
+    <footer>
+      No Copyright &copy; <span id="this-year"></span> | Made with 🖤 by
+      <a href="https://github.com/shams-shimul" target="_blank">Shams Shimul</a>
+    </footer>
+    <div class="backdrop"></div>
+    <div class="alert"></div>
+    <script src="./functions.js" type="text/javascript"></script>
+    <script src="./script.js" type="text/javascript"></script>
+  </body>
+
 </html>

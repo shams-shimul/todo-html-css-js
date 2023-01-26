@@ -107,7 +107,7 @@ i.meteor {
 header {
 	font-size: 3em;
 	text-align: center;
-	width: 450px;
+	width: 500px;
 	margin: 0 auto 30px;
 }
 
@@ -170,7 +170,7 @@ header #time-now span:last-child {
 .todo-input {
 	padding: 20px;
 	background: rgba(255, 255, 255, 0.5);
-	border-radius: 16px;
+	border-radius: 14px;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(5px);
 	-webkit-backdrop-filter: blur(5px);
@@ -271,6 +271,25 @@ ul.todo-items > li:not(#search-result):hover {
 	transform: scale(1.05);
 }
 
+.search {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  top: calc(50% - 2px);
+  left: 6px;
+  height: 16px;
+  transform: translateY(-50%);
+}
+
+.search svg {
+  width: 16px;
+  height: 16px;
+  stroke: darkgray;
+  stroke-width: 2.5;
+}
+
 #search-result {
   justify-content: center;
 }
@@ -282,8 +301,8 @@ ul.todo-items > li:not(#search-result):hover {
 .filter-btn,
 #search {
 	font-size: small;
-	padding: 0 5px;
-	border-radius: 5px;
+	padding: 4px 10px;
+	border-radius: 8px;
 	border: 1px solid black;
 	white-space: nowrap;
 	outline: none;
@@ -295,13 +314,14 @@ ul.todo-items > li:not(#search-result):hover {
 }
 
 #search {
-	border: 1px solid white;
+	border-color: white;
+  padding-left: 26px;
 }
 
 #more-btn {
 	width: 22px;
 	height: 22px;
-	border-radius: 50px;
+	background-color: transparent;
 	border: 1px solid transparent;
 	text-align: center;
 	overflow: visible;
@@ -310,26 +330,11 @@ ul.todo-items > li:not(#search-result):hover {
 	transition: all 0.3s ease;
 }
 
-#more-btn.open {
-	border-radius: 10px 10px 10px 0px;
-	border-color: #e94057 !important;
-}
-
-#more-btn:hover {
-	border-color: #e94057 !important;
-}
-
 #more-btn i {
-	color: gray;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-}
-
-#more-btn.open i,
-#more-btn:hover i {
-	color: #e94057 !important;
 }
 
 #more-opt {

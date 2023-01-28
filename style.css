@@ -143,9 +143,7 @@ header #time-now span:last-child {
 }
 
 .material-icons {
-	/* background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%); */
-	background-image: linear-gradient(135deg, #fad7a1 10%, #e96d71 100%);
-	/* background-image: linear-gradient(to right, #ffc3a0 0%, #ffafbd 100%); */
+	background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
 	background-size: 100%;
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -161,6 +159,7 @@ header #time-now span:last-child {
 	width: 450px;
 	background: rgba(255, 255, 255, 0.5);
 	border-radius: 16px;
+	overflow: hidden;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(1px);
 	-webkit-backdrop-filter: blur(1px);
@@ -244,12 +243,12 @@ header #time-now span:last-child {
 }
 
 #filter-action-row {
-  position: relative;
+	position: relative;
 	padding: 10px;
 	display: none;
 	justify-content: space-between;
 	align-items: center;
-  margin-top: 16px;
+	margin-top: 16px;
 }
 
 ul.todo-items {
@@ -262,40 +261,40 @@ ul.todo-items > li {
 	display: flex;
 	align-items: center;
 	column-gap: 10px;
-	border-radius: 10px;
-	transition: transform 0.3s ease-in-out;
+	border-radius: 14px;
+	transition: all 0.3s ease-in-out;
 }
 
 ul.todo-items > li:not(#search-result):hover {
 	background-color: bisque;
-	transform: scale(1.05);
+	/* transform: scale(1.05); */
 }
 
 .search {
-  position: relative;
+	position: relative;
 }
 
 .search-icon {
-  position: absolute;
-  top: calc(50% - 2px);
-  left: 6px;
-  height: 16px;
-  transform: translateY(-50%);
+	position: absolute;
+	top: calc(50% - 2px);
+	left: 6px;
+	height: 16px;
+	transform: translateY(-50%);
 }
 
 .search svg {
-  width: 16px;
-  height: 16px;
-  stroke: darkgray;
-  stroke-width: 2.5;
+	width: 16px;
+	height: 16px;
+	stroke: darkgray;
+	stroke-width: 2.5;
 }
 
 #search-result {
-  justify-content: center;
+	justify-content: center;
 }
 
 #search-result i {
-  color: orangered;
+	color: orangered;
 }
 
 .filter-btn,
@@ -315,7 +314,7 @@ ul.todo-items > li:not(#search-result):hover {
 
 #search {
 	border-color: white;
-  padding-left: 26px;
+	padding-left: 26px;
 }
 
 #more-btn {
@@ -339,15 +338,20 @@ ul.todo-items > li:not(#search-result):hover {
 
 #more-opt {
 	position: absolute;
-	top: 35px;
-	right: 35px;
+	top: 45px;
+	right: -200px;
 	background-color: gainsboro;
 	font-size: small;
 	border-radius: 10px 0 10px 10px;
-	height: 0;
 	overflow: hidden;
 	z-index: 99;
-	transition: height 0.3s ease-in-out;
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+		rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+	transition: all 0.3s ease-in-out;
+}
+
+#more-btn.open + #more-opt {
+	right: 12px;
 }
 
 #more-opt-list {

@@ -49,9 +49,8 @@ const showAlreadyThere = () => {
   if (alreadyThere != null && alreadyThere.length > 0) {
     todos = alreadyThere;
     document.getElementById("filter-action-row").style.display = "flex";
-    document.querySelector(".todo-items").style.marginBottom = "16px";
     checkAllItemStatus();
-    alreadyThere.map((item, index) => {
+    todos.map((item, index) => {
       const { valueBeforeEdit, done, createdDate, createdTime } = item;
       createAndInsertLi(index, valueBeforeEdit, done, createdDate, createdTime);
     });
@@ -66,7 +65,6 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
   if (todoVal) {
     if (todos.length === 0) {
       document.getElementById("filter-action-row").style.display = "flex";
-      document.querySelector(".todo-items").style.marginBottom = "16px";
     }
     todos.push({
       valueBeforeEdit: todoVal,
@@ -134,20 +132,9 @@ document.getElementById("this-year").innerText = new Date().getFullYear();
 
 // Search
 const searchItem = (input) => {
-  // console.log(window.event);
   const searchStr = input.value.toLowerCase();
-  const itemNodes = document.getElementsByClassName("item-value");
-  let matchNotFound = 0;
-  for (let i = 0; i < itemNodes.length; i++) {
-    if (itemNodes[i].innerText.toLowerCase().includes(searchStr)) {
-      matchNotFound = 0;
-      itemNodes[i].parentElement.parentElement.style.display = "flex";
-    } else {
-      matchNotFound++;
-      itemNodes[i].parentElement.parentElement.style.display = "none";
-    }
-  }
-  if (matchNotFound === todos.length) {
+  const searchResult = todos.filter(todo => todo.valueBeforeEdit.toLowerCase().includes(searchStr))
+  if (searchResult.length === 0) {
     document.querySelector("ul.todo-items").innerHTML = `
       <li id="search-result">
         <i class="fa-solid fa-circle-exclamation"></i> No such items found!
@@ -156,7 +143,11 @@ const searchItem = (input) => {
   } else {
     if (document.getElementById("search-result")) {
       document.getElementById("search-result").remove();
-      showAlreadyThere();
     }
+    document.querySelector('.todo-items').innerHTML = ''
+    searchResult.forEach((item, index) => {
+      const { valueBeforeEdit, done, createdDate, createdTime } = item;
+      createAndInsertLi(index, valueBeforeEdit, done, createdDate, createdTime);
+    });
   }
 }

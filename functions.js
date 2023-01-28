@@ -63,13 +63,13 @@ const createAndInsertLi = (id, stringVal, status, date, time) => {
 // Check whether all items are done, or not-done, or a mixture of both
 const checkAllItemStatus = () => {
   // check if all items are 'done' or 'not-done'
-  let allDoneCount = 0;
-  let allNotDoneCount = 0;
+  let doneCount = 0;
+  let notDoneCount = 0;
   for (let i = 0; i < todos.length; i++) {
-    todos[i].done ? ++allDoneCount : ++allNotDoneCount;
+    todos[i].done ? ++doneCount : ++notDoneCount;
   }
   // If all items are 'done', disble 'mark all as done' button, else keep it enabled
-  if (allDoneCount === todos.length) {
+  if (doneCount === todos.length) {
     document
       .querySelector("#more-opt-list li:first-child")
       .setAttribute("class", "disabled");
@@ -85,7 +85,7 @@ const checkAllItemStatus = () => {
       .setAttribute("onclick", "markAllDone(this)");
   }
   // If all items are 'not-done', disble 'mark all as not done' button, else keep it enabled
-  if (allNotDoneCount === todos.length) {
+  if (notDoneCount === todos.length) {
     document
       .querySelector("#more-opt-list li:nth-child(2)")
       .setAttribute("class", "disabled");
@@ -289,16 +289,13 @@ const filterNotDone = allOrNotdone => {
 };
 
 // Toggle show/hide of more options
-const moreOptListHeight = document.getElementById("more-opt-list");
 const openMoreOptList = () => {
   document.getElementById("more-btn").classList.add("open");
   document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-xmark fa-lg close-more");
-  document.getElementById("more-opt").style.height = `${moreOptListHeight.clientHeight}px`;
 }
 const closeMoreOptList = () => {
   document.getElementById("more-btn").classList.remove("open");
   document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-bars fa-lg");
-  document.getElementById("more-opt").style.height = "0px";
 }
 const toggleMoreOpt = thisNode => {
   if (thisNode.querySelector("i").classList.contains("close-more")) {

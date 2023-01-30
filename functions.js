@@ -37,8 +37,8 @@ const createAndInsertLi = (id, stringVal, status, date, time) => {
   newElem.innerHTML = `
     <span>
     <i class="${status
-      ? "toggle checked fa solid fa-circle-check"
-      : "toggle fa-regular fa-circle"
+      ? "toggle checked bi bi-check-circle-fill"
+      : "toggle bi bi-circle"
     } clickable" title="Click to mark as ${status ? "'Not Done'" : "'Done'"
     }" onclick="toggleDone(this)"></i>
     </span>
@@ -49,12 +49,12 @@ const createAndInsertLi = (id, stringVal, status, date, time) => {
       </div>
     </div>
     <span class="action-icons set-1">
-      <i class="fa-regular fa-pen-to-square clickable" title="Edit" onclick="editItem(this)"></i>
-      <i class="fa-regular fa-trash-can clickable" title="Delete" onclick="deleteItem(this)"></i>
+      <i class="bi bi-pencil-square clickable" title="Edit" onclick="editItem(this)"></i>
+      <i class="bi bi-trash3 clickable" title="Delete" onclick="deleteItem(this)"></i>
     </span>
     <span class="action-icons set-2">
-      <i class="fa-regular fa-floppy-disk clickable" title="Save" onclick="saveEdit(this)"></i>
-      <i class="fa-solid fa-xmark clickable" title="Cancel" onclick="cancelEdit(this)"></i>
+      <i class="bi bi-save2 clickable" title="Save" onclick="saveEdit(this)"></i>
+      <i class="bi bi-x clickable" title="Cancel" onclick="cancelEdit(this)"></i>
     </span>
   `;
   document.querySelector("ul.todo-items").appendChild(newElem);
@@ -200,7 +200,7 @@ const toggleAlert = label => {
 const toggleDone = thisNode => {
   const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
   if (todos[itemPos].done) {
-    thisNode.setAttribute("class", "toggle fa-regular fa-circle clickable");
+    thisNode.setAttribute("class", "toggle bi bi-circle clickable");
     thisNode.setAttribute("title", "Click to mark as 'Done'");
     thisNode.parentElement.parentElement.setAttribute(
       "status",
@@ -211,7 +211,7 @@ const toggleDone = thisNode => {
   } else {
     thisNode.setAttribute(
       "class",
-      "toggle checked fa-solid fa-circle-check clickable"
+      "toggle bi bi-check-circle-fill clickable"
     );
     thisNode.setAttribute("title", "Click to mark as 'Not Done'");
     thisNode.parentElement.parentElement.setAttribute(
@@ -291,11 +291,11 @@ const filterNotDone = allOrNotdone => {
 // Toggle show/hide of more options
 const openMoreOptList = () => {
   document.getElementById("more-btn").classList.add("open");
-  document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-xmark fa-lg close-more");
+  document.querySelector("#more-btn i").setAttribute("class", "bi bi-x close-more");
 }
 const closeMoreOptList = () => {
   document.getElementById("more-btn").classList.remove("open");
-  document.querySelector("#more-btn i").setAttribute("class", "fa-solid fa-bars fa-lg");
+  document.querySelector("#more-btn i").setAttribute("class", "bi bi-list");
 }
 const toggleMoreOpt = thisNode => {
   if (thisNode.querySelector("i").classList.contains("close-more")) {
@@ -315,7 +315,7 @@ const markAllDone = thisNode => {
     allItems[i].setAttribute("status", "Done");
     allItems[i].querySelector("span:first-child i").setAttribute(
       "class",
-      "toggle checked fa-solid fa-circle-check clickable"
+      "toggle checked bi bi-check-circle-fill clickable"
     );
     allItems[i].querySelector("div.item-value").classList.add("done");
     allItems[i].querySelector("div.item-datetimestamp").classList.add("done");
@@ -343,7 +343,7 @@ const markAllNotDone = thisNode => {
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].setAttribute("status", "Not-done");
-    allItems[i].querySelector("span:first-child i").setAttribute("class", "toggle fa-regular fa-circle clickable");
+    allItems[i].querySelector("span:first-child i").setAttribute("class", "toggle bi bi-circle clickable");
     allItems[i].querySelector("div.item-value").classList.remove("done");
     allItems[i].querySelector("div.item-datetimestamp").classList.remove("done");
   }

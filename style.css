@@ -84,8 +84,6 @@ i.meteor {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	/* width: 100vw;
-	height: 100%; */
 	background: rgb(0 0 0 / 0.5);
 	backdrop-filter: blur(1px);
 	visibility: hidden;
@@ -276,17 +274,14 @@ ul.todo-items > li:not(#search-result):hover {
 
 .search-icon {
 	position: absolute;
-	top: calc(50% - 2px);
-	left: 6px;
+	top: calc(50% - 5px);
+	left: 7px;
 	height: 16px;
 	transform: translateY(-50%);
 }
 
-.search svg {
-	width: 16px;
-	height: 16px;
-	stroke: darkgray;
-	stroke-width: 2.5;
+.search-icon i {
+	font-size: 13px;
 }
 
 #search-result {
@@ -329,8 +324,9 @@ ul.todo-items > li:not(#search-result):hover {
 	transition: all 0.3s ease;
 }
 
-#more-btn i {
+#more-btn i::before {
 	position: absolute;
+	font-size: 24px;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);

@@ -1,6 +1,3 @@
-// initiate feather icons
-feather.replace()
-
 /* JS for meteor rain effect */
 const meteor = _ => {
   let amount = 150;
@@ -31,11 +28,11 @@ window.addEventListener('resize', meteor)
 /* JS for To-Do */
 
 document.getElementById("day-date").innerHTML = `
-  <span class="material-icons">today</span> ${createDayDate()}
+  <i class="bi bi-calendar3"></i> ${createDayDate()}
 `;
 setInterval(() => {
   document.getElementById("time-now").innerHTML = `
-    <span class="material-icons">schedule</span>
+    <i class="bi bi-hourglass-split"></i>
     ${new Date().toLocaleTimeString().substring(0, 8).trim()}
     <span>${new Date().toLocaleTimeString().substring(8).trim()}</span>
   `;

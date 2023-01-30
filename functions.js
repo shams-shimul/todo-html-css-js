@@ -36,15 +36,14 @@ const createAndInsertLi = (id, stringVal, status, date, time) => {
   newElem.setAttribute("status", `${status ? "Done" : "Not-done"}`);
   newElem.innerHTML = `
     <span>
-    <i class="${status
-      ? "toggle checked bi bi-check-circle-fill"
-      : "toggle bi bi-circle"
+    <i class="${status ? "toggle checked bi bi-check-circle-fill" : "toggle bi bi-circle"
     } clickable" title="Click to mark as ${status ? "'Not Done'" : "'Done'"
     }" onclick="toggleDone(this)"></i>
     </span>
     <div class="item-wrap">
-      <div class="${status ? 'item-value done' : 'item-value'}" onkeydown="actionOnKeydown(this)">${stringVal}</div>
-      <div class="${status ? 'item-datetimestamp done' : 'item-datetimestamp'}">
+      <div class="${status ? "item-value done" : "item-value"
+    }" onkeydown="actionOnKeydown(this)">${stringVal}</div>
+      <div class="${status ? "item-datetimestamp done" : "item-datetimestamp"}">
         Created on ${date} at ${time}
       </div>
     </div>
@@ -58,7 +57,7 @@ const createAndInsertLi = (id, stringVal, status, date, time) => {
     </span>
   `;
   document.querySelector("ul.todo-items").appendChild(newElem);
-}
+};
 
 // Check whether all items are done, or not-done, or a mixture of both
 const checkAllItemStatus = () => {
@@ -100,11 +99,13 @@ const checkAllItemStatus = () => {
       .querySelector("#more-opt-list li:nth-child(2)")
       .setAttribute("onclick", "markAllNotDone(this)");
   }
-}
+};
 
 // Activate edit mode and toggle action icons
 const editItem = thisNode => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
+  const itemPos = thisNode.parentElement.parentElement
+    .getAttribute("id")
+    .substring(5);
   toggleEditAndIcons(thisNode, itemPos);
 };
 
@@ -122,9 +123,7 @@ const deleteItem = thisNode => {
   }
   localStorage.setItem("korteHobe", JSON.stringify(todos));
   thisNode.parentElement.parentElement.remove();
-  const allRows = document.querySelectorAll(
-    ".todo-items>li"
-  );
+  const allRows = document.querySelectorAll(".todo-items>li");
   for (let i = 0; i < todos.length; i++) {
     if (i === itemPos || i > itemPos) {
       allRows[i].setAttribute("id", `item-${i}`);
@@ -135,16 +134,20 @@ const deleteItem = thisNode => {
 
 // Save edited items
 const saveEdit = thisNode => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
+  const itemPos = thisNode.parentElement.parentElement
+    .getAttribute("id")
+    .substring(5);
   todos[itemPos].alteredValue =
     thisNode.parentElement.parentElement.querySelector(".item-value").innerText;
   if (todos[itemPos].alteredValue !== todos[itemPos].valueBeforeEdit) {
     todos[itemPos].valueBeforeEdit = todos[itemPos].alteredValue;
     todos[itemPos].createdDate = createDayDate();
     todos[itemPos].createdTime = new Date().toLocaleTimeString();
-    thisNode.parentElement.parentElement.querySelector(".item-datetimestamp").innerHTML = `
+    thisNode.parentElement.parentElement.querySelector(
+      ".item-datetimestamp"
+    ).innerHTML = `
       Created on ${todos[itemPos].createdDate} at ${todos[itemPos].createdTime}
-    `
+    `;
     toggleAlert("Changes Saved");
   }
   localStorage.setItem("korteHobe", JSON.stringify(todos));
@@ -153,7 +156,9 @@ const saveEdit = thisNode => {
 
 // Cancel edit mode
 const cancelEdit = thisNode => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
+  const itemPos = thisNode.parentElement.parentElement
+    .getAttribute("id")
+    .substring(5);
   thisNode.parentElement.parentElement.querySelector(".item-value").innerText =
     todos[itemPos].valueBeforeEdit;
   toggleEditAndIcons(thisNode, itemPos);
@@ -161,7 +166,9 @@ const cancelEdit = thisNode => {
 
 // Save/cancel on 'Enter/Excape' Keypress on edit mode
 const actionOnKeydown = thisNode => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
+  const itemPos = thisNode.parentElement.parentElement
+    .getAttribute("id")
+    .substring(5);
   if (window.event.key === "Enter") {
     window.event.preventDefault();
     todos[itemPos].alteredValue = thisNode.innerText;
@@ -170,7 +177,8 @@ const actionOnKeydown = thisNode => {
       toggleAlert("Changes Saved");
     }
     toggleEditAndIcons(
-      thisNode.parentElement.nextElementSibling.nextElementSibling.firstElementChild,
+      thisNode.parentElement.nextElementSibling.nextElementSibling
+        .firstElementChild,
       itemPos
     );
   }
@@ -187,7 +195,7 @@ const actionOnKeydown = thisNode => {
 
 // Show/Hide alert from top on adding/editing/deleting of items
 const toggleAlert = label => {
-  document.querySelector(".alert").innerText = label;
+  document.querySelector(".alert").innerHTML = label
   document.querySelector(".alert").style.top = "35px";
   document.querySelector(".backdrop").style.visibility = "visible";
   setTimeout(() => {
@@ -198,7 +206,9 @@ const toggleAlert = label => {
 
 // Toggle between done/not-done todos of items and visual appearance
 const toggleDone = thisNode => {
-  const itemPos = thisNode.parentElement.parentElement.getAttribute("id").substring(5);
+  const itemPos = thisNode.parentElement.parentElement
+    .getAttribute("id")
+    .substring(5);
   if (todos[itemPos].done) {
     thisNode.setAttribute("class", "toggle bi bi-circle clickable");
     thisNode.setAttribute("title", "Click to mark as 'Done'");
@@ -206,20 +216,25 @@ const toggleDone = thisNode => {
       "status",
       `${todos[itemPos].done ? "Not-done" : "Done"}`
     );
-    thisNode.parentElement.nextElementSibling.querySelector(".item-value").classList.remove("done");
-    thisNode.parentElement.nextElementSibling.querySelector(".item-datetimestamp").classList.remove("done");
+    thisNode.parentElement.nextElementSibling
+      .querySelector(".item-value")
+      .classList.remove("done");
+    thisNode.parentElement.nextElementSibling
+      .querySelector(".item-datetimestamp")
+      .classList.remove("done");
   } else {
-    thisNode.setAttribute(
-      "class",
-      "toggle bi bi-check-circle-fill clickable"
-    );
+    thisNode.setAttribute("class", "toggle bi bi-check-circle-fill clickable");
     thisNode.setAttribute("title", "Click to mark as 'Not Done'");
     thisNode.parentElement.parentElement.setAttribute(
       "status",
       `${todos[itemPos].done ? "Not-done" : "Done"}`
     );
-    thisNode.parentElement.nextElementSibling.querySelector(".item-value").classList.add("done");
-    thisNode.parentElement.nextElementSibling.querySelector(".item-datetimestamp").classList.add("done");
+    thisNode.parentElement.nextElementSibling
+      .querySelector(".item-value")
+      .classList.add("done");
+    thisNode.parentElement.nextElementSibling
+      .querySelector(".item-datetimestamp")
+      .classList.add("done");
   }
   todos[itemPos].done = !todos[itemPos].done;
   localStorage.setItem("korteHobe", JSON.stringify(todos));
@@ -239,13 +254,20 @@ const toggleDone = thisNode => {
 // Toggle between edit/normal mode and action icons
 const toggleEditAndIcons = (thisNode, itemPos) => {
   if (todos[itemPos].editModeOn) {
-    thisNode.parentElement.parentElement.querySelector(".item-value").setAttribute("contentEditable", "false");
     thisNode.parentElement.parentElement
-      .querySelector(".item-value").classList.remove("editable");
+      .querySelector(".item-value")
+      .setAttribute("contentEditable", "false");
+    thisNode.parentElement.parentElement
+      .querySelector(".item-value")
+      .classList.remove("editable");
   } else {
-    thisNode.parentElement.parentElement.querySelector(".item-value").setAttribute("contentEditable", "true");
+    thisNode.parentElement.parentElement
+      .querySelector(".item-value")
+      .setAttribute("contentEditable", "true");
     thisNode.parentElement.parentElement.querySelector(".item-value").focus();
-    thisNode.parentElement.parentElement.querySelector(".item-value").classList.add("editable");
+    thisNode.parentElement.parentElement
+      .querySelector(".item-value")
+      .classList.add("editable");
   }
   thisNode.parentElement.style.display = "none";
   if (thisNode.parentElement.classList.contains("set-1")) {
@@ -291,17 +313,19 @@ const filterNotDone = allOrNotdone => {
 // Toggle show/hide of more options
 const openMoreOptList = () => {
   document.getElementById("more-btn").classList.add("open");
-  document.querySelector("#more-btn i").setAttribute("class", "bi bi-x close-more");
-}
+  document
+    .querySelector("#more-btn i")
+    .setAttribute("class", "bi bi-x close-more");
+};
 const closeMoreOptList = () => {
   document.getElementById("more-btn").classList.remove("open");
   document.querySelector("#more-btn i").setAttribute("class", "bi bi-list");
-}
+};
 const toggleMoreOpt = thisNode => {
   if (thisNode.querySelector("i").classList.contains("close-more")) {
     closeMoreOptList();
   } else {
-    openMoreOptList()
+    openMoreOptList();
   }
 };
 
@@ -313,10 +337,12 @@ const markAllDone = thisNode => {
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].setAttribute("status", "Done");
-    allItems[i].querySelector("span:first-child i").setAttribute(
-      "class",
-      "toggle checked bi bi-check-circle-fill clickable"
-    );
+    allItems[i]
+      .querySelector("span:first-child i")
+      .setAttribute(
+        "class",
+        "toggle checked bi bi-check-circle-fill clickable"
+      );
     allItems[i].querySelector("div.item-value").classList.add("done");
     allItems[i].querySelector("div.item-datetimestamp").classList.add("done");
   }
@@ -343,9 +369,13 @@ const markAllNotDone = thisNode => {
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
     allItems[i].setAttribute("status", "Not-done");
-    allItems[i].querySelector("span:first-child i").setAttribute("class", "toggle bi bi-circle clickable");
+    allItems[i]
+      .querySelector("span:first-child i")
+      .setAttribute("class", "toggle bi bi-circle clickable");
     allItems[i].querySelector("div.item-value").classList.remove("done");
-    allItems[i].querySelector("div.item-datetimestamp").classList.remove("done");
+    allItems[i]
+      .querySelector("div.item-datetimestamp")
+      .classList.remove("done");
   }
 
   // When All/Not Done Yet category is active, show 'not-done' items, else hide
@@ -375,8 +405,16 @@ const deleteAll = () => {
   document.querySelector(".todo-items").style.marginBottom = "0";
   document.getElementById("filter-action-row").style.display = "none";
   closeMoreOptList();
-  document.querySelector("#more-opt-list li:first-child").setAttribute("class", "clickable");
-  document.querySelector("#more-opt-list li:first-child").setAttribute("onclick", "markAllDone()");
-  document.querySelector("#more-opt-list li:nth-child(2)").setAttribute("class", "disabled");
-  document.querySelector("#more-opt-list li:nth-child(2)").removeAttribute("onclick");
+  document
+    .querySelector("#more-opt-list li:first-child")
+    .setAttribute("class", "clickable");
+  document
+    .querySelector("#more-opt-list li:first-child")
+    .setAttribute("onclick", "markAllDone()");
+  document
+    .querySelector("#more-opt-list li:nth-child(2)")
+    .setAttribute("class", "disabled");
+  document
+    .querySelector("#more-opt-list li:nth-child(2)")
+    .removeAttribute("onclick");
 };

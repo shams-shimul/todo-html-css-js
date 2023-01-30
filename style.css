@@ -336,7 +336,7 @@ ul.todo-items > li:not(#search-result):hover {
 	position: absolute;
 	top: 45px;
 	right: -200px;
-	background-color: gainsboro;
+	background-color: g;
 	font-size: small;
 	border-radius: 10px 0 10px 10px;
 	overflow: hidden;

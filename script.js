@@ -56,6 +56,7 @@ const showAlreadyThere = () => {
 
 showAlreadyThere();
 
+// Add new item to the list
 document.getElementById("todo-input-form").addEventListener("submit", e => {
   e.preventDefault();
   const todoVal = document.getElementById("todo").value;
@@ -86,9 +87,9 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
     document.getElementById("todo").value = "";
     toggleAlert("Item Added");
     itemCount++;
-    // console.log(todos);
+    document.getElementById("todo").blur()
   } else {
-    alert("Empty inputs not allowed");
+    toggleAlert(`<i class='bi bi-exclamation-octagon'></i> Empty inputs not allowed`);
   }
 });
 

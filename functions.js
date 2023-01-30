@@ -1,4 +1,7 @@
-// Handling dates and times
+/**
+ * Handles date formating
+ * @returns {String} formatted full length date
+ */
 const createDayDate = () => {
   const thisDayDate = new Date();
   const weekDays = [
@@ -29,7 +32,15 @@ const createDayDate = () => {
   return `${dayName}, ${monthName} ${thisDayDate.getDate()}, ${thisDayDate.getFullYear()}`;
 };
 
-// Generate the contents of each <li> and append to the list <ul>
+
+/**
+ * Generates the contents of each <li> and append to the list <ul>
+ * @param {Number} id 
+ * @param {String} stringVal 
+ * @param {Boolean} status 
+ * @param {String} date 
+ * @param {String} time 
+ */
 const createAndInsertLi = (id, stringVal, status, date, time) => {
   const newElem = document.createElement("li");
   newElem.setAttribute("id", `item-${id}`);
@@ -59,7 +70,10 @@ const createAndInsertLi = (id, stringVal, status, date, time) => {
   document.querySelector("ul.todo-items").appendChild(newElem);
 };
 
-// Check whether all items are done, or not-done, or a mixture of both
+
+/**
+ * Check whether all items are done, or not-done, or a mixture of both
+ */
 const checkAllItemStatus = () => {
   // check if all items are 'done' or 'not-done'
   let doneCount = 0;
@@ -101,7 +115,11 @@ const checkAllItemStatus = () => {
   }
 };
 
-// Activate edit mode and toggle action icons
+
+/**
+ * Makes the text content of the passed HTML DOM node editable and toggle action icons
+ * @param {HTMLElement} thisNode 
+ */
 const editItem = thisNode => {
   const itemPos = thisNode.parentElement.parentElement
     .getAttribute("id")
@@ -109,7 +127,11 @@ const editItem = thisNode => {
   toggleEditAndIcons(thisNode, itemPos);
 };
 
-// Delete items
+
+/**
+ * Deletes the DOM node and the corresponding item from the todo list
+ * @param {HTMLElement} thisNode 
+ */
 const deleteItem = thisNode => {
   const itemPos = Number(
     thisNode.parentElement.parentElement.getAttribute("id").substring(5)
@@ -132,7 +154,11 @@ const deleteItem = thisNode => {
   toggleAlert("Item Deleted");
 };
 
-// Save edited items
+
+/**
+ * Removes the 'content-editable' from the node and saves the string in the same index of the todo list 
+ * @param {HTMLElement} thisNode 
+ */
 const saveEdit = thisNode => {
   const itemPos = thisNode.parentElement.parentElement
     .getAttribute("id")
@@ -154,7 +180,11 @@ const saveEdit = thisNode => {
   toggleEditAndIcons(thisNode, itemPos);
 };
 
-// Cancel edit mode
+
+/**
+ * Cancels the edit mode of the node, scraps the new text string if any, and restores the old text content
+ * @param {HTMLElement} thisNode 
+ */
 const cancelEdit = thisNode => {
   const itemPos = thisNode.parentElement.parentElement
     .getAttribute("id")
@@ -164,7 +194,11 @@ const cancelEdit = thisNode => {
   toggleEditAndIcons(thisNode, itemPos);
 };
 
-// Save/cancel on 'Enter/Excape' Keypress on edit mode
+
+/**
+ * Saves/cancels the current edit of the text content of the node on 'Enter/Escape' Keypress on edit mode
+ * @param {HTMLElement} thisNode 
+ */
 const actionOnKeydown = thisNode => {
   const itemPos = thisNode.parentElement.parentElement
     .getAttribute("id")
@@ -193,7 +227,11 @@ const actionOnKeydown = thisNode => {
   localStorage.setItem("korteHobe", JSON.stringify(todos));
 };
 
-// Show/Hide alert from top on adding/editing/deleting of items
+
+/**
+ * Shows/Hides a custom alert with the passed text string as the message on adding/editing/deleting of items
+ * @param {String} label 
+ */
 const toggleAlert = label => {
   document.querySelector(".alert").innerHTML = label
   document.querySelector(".alert").style.top = "35px";
@@ -204,7 +242,11 @@ const toggleAlert = label => {
   }, 2000);
 };
 
-// Toggle between done/not-done todos of items and visual appearance
+
+/**
+ * Toggles between the 'Done'/'Not Done' status of the correspondin item of the node and visual appearance
+ * @param {HTMLElement} thisNode 
+ */
 const toggleDone = thisNode => {
   const itemPos = thisNode.parentElement.parentElement
     .getAttribute("id")
@@ -251,7 +293,12 @@ const toggleDone = thisNode => {
   checkAllItemStatus();
 };
 
-// Toggle between edit/normal mode and action icons
+
+/**
+ * Toggles between edit/normal mode of the node and action icons
+ * @param {HTMLElement} thisNode 
+ * @param {Number} itemPos 
+ */
 const toggleEditAndIcons = (thisNode, itemPos) => {
   if (todos[itemPos].editModeOn) {
     thisNode.parentElement.parentElement
@@ -281,6 +328,9 @@ const toggleEditAndIcons = (thisNode, itemPos) => {
 
 // Filtering functions(3)
 
+/**
+ * Shows all the items of the todo list
+ */
 const filterAll = () => {
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
@@ -288,6 +338,10 @@ const filterAll = () => {
   }
 };
 
+/**
+ * Shows only the items that are already 'Done' and filters out the rest
+ * @param {Boolean} allOrDone 
+ */
 const filterDone = allOrDone => {
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
@@ -299,6 +353,10 @@ const filterDone = allOrDone => {
   }
 };
 
+/**
+ * Shows only the items that are 'Not Done' yet and filters out the rest
+ * @param {Boolean} allOrNotdone 
+ */
 const filterNotDone = allOrNotdone => {
   const allItems = document.querySelectorAll("[status]");
   for (let i = 0; i < allItems.length; i++) {
@@ -310,17 +368,27 @@ const filterNotDone = allOrNotdone => {
   }
 };
 
-// Toggle show/hide of more options
+
+/**
+ * Opens the more actions menu list on click on the hambruger button
+ */
 const openMoreOptList = () => {
   document.getElementById("more-btn").classList.add("open");
   document
     .querySelector("#more-btn i")
     .setAttribute("class", "bi bi-x close-more");
 };
+/**
+ * Opens the more actions menu list on click on the hambruger button
+ */
 const closeMoreOptList = () => {
   document.getElementById("more-btn").classList.remove("open");
   document.querySelector("#more-btn i").setAttribute("class", "bi bi-list");
 };
+/**
+ * Controls whether to open/close the more actions menu list
+ * @param {HTMLElement} thisNode 
+ */
 const toggleMoreOpt = thisNode => {
   if (thisNode.querySelector("i").classList.contains("close-more")) {
     closeMoreOptList();
@@ -329,8 +397,11 @@ const toggleMoreOpt = thisNode => {
   }
 };
 
-// 'More options' click events (3)
 
+/**
+ * Marks all todo items as 'Done' and changes appearance of the nodes accordingly
+ * @param {HTMLElement} thisNode 
+ */
 const markAllDone = thisNode => {
   todos = todos.map(item => ({ ...item, done: true }));
   localStorage.setItem("korteHobe", JSON.stringify(todos));
@@ -363,6 +434,10 @@ const markAllDone = thisNode => {
   closeMoreOptList();
 };
 
+/**
+ * Marks all todo items as 'Not Done' and changes appearance of the nodes accordingly
+ * @param {HTMLElement} thisNode 
+ */
 const markAllNotDone = thisNode => {
   todos = todos.map(item => ({ ...item, done: false }));
   localStorage.setItem("korteHobe", JSON.stringify(todos));
@@ -394,6 +469,9 @@ const markAllNotDone = thisNode => {
   closeMoreOptList();
 };
 
+/**
+ * Deletes all todo items and the corresponding nodes from the DOM
+ */
 const deleteAll = () => {
   todos = [];
   localStorage.clear();

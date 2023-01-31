@@ -47,7 +47,7 @@ const createAndInsertLi = (id, stringVal, status, date, time) => {
   newElem.setAttribute("status", `${status ? "Done" : "Not-done"}`);
   newElem.innerHTML = `
     <span>
-    <i class="${status ? "toggle checked bi bi-check-circle-fill" : "toggle bi bi-circle"
+    <i class="${status ? "toggle bi bi-check-circle-fill" : "toggle bi bi-circle"
     } clickable" title="Click to mark as ${status ? "'Not Done'" : "'Done'"
     }" onclick="toggleDone(this)"></i>
     </span>
@@ -78,7 +78,8 @@ const checkAllItemStatus = () => {
   // check if all items are 'done' or 'not-done'
   let doneCount = 0;
   let notDoneCount = 0;
-  for (let i = 0; i < todos.length; i++) {
+  let loopCycles = todos.length
+  for (let i = 0; i < loopCycles; i++) {
     todos[i].done ? ++doneCount : ++notDoneCount;
   }
   // If all items are 'done', disble 'mark all as done' button, else keep it enabled
@@ -146,7 +147,8 @@ const deleteItem = thisNode => {
   localStorage.setItem("korteHobe", JSON.stringify(todos));
   thisNode.parentElement.parentElement.remove();
   const allRows = document.querySelectorAll(".todo-items>li");
-  for (let i = 0; i < todos.length; i++) {
+  let loopCycles = todos.length
+  for (let i = 0; i < loopCycles; i++) {
     if (i === itemPos || i > itemPos) {
       allRows[i].setAttribute("id", `item-${i}`);
     }
@@ -333,7 +335,8 @@ const toggleEditAndIcons = (thisNode, itemPos) => {
  */
 const filterAll = () => {
   const allItems = document.querySelectorAll("[status]");
-  for (let i = 0; i < allItems.length; i++) {
+  let loopCycles = allItems.length
+  for (let i = 0; i < loopCycles; i++) {
     allItems[i].style.display = "flex";
   }
 };
@@ -344,7 +347,8 @@ const filterAll = () => {
  */
 const filterDone = allOrDone => {
   const allItems = document.querySelectorAll("[status]");
-  for (let i = 0; i < allItems.length; i++) {
+  let loopCycles = allItems.length
+  for (let i = 0; i < loopCycles; i++) {
     if (allItems[i].getAttribute("status") === "Done") {
       allItems[i].style.display = `${allOrDone ? "flex" : "none"}`;
     } else {
@@ -359,7 +363,8 @@ const filterDone = allOrDone => {
  */
 const filterNotDone = allOrNotdone => {
   const allItems = document.querySelectorAll("[status]");
-  for (let i = 0; i < allItems.length; i++) {
+  let loopCycles = allItems.length
+  for (let i = 0; i < loopCycles; i++) {
     if (allItems[i].getAttribute("status") === "Not-done") {
       allItems[i].style.display = `${allOrNotdone ? "flex" : "none"}`;
     } else {
@@ -406,13 +411,14 @@ const markAllDone = thisNode => {
   todos = todos.map(item => ({ ...item, done: true }));
   localStorage.setItem("korteHobe", JSON.stringify(todos));
   const allItems = document.querySelectorAll("[status]");
-  for (let i = 0; i < allItems.length; i++) {
+  let loopCycles = allItems.length
+  for (let i = 0; i < loopCycles; i++) {
     allItems[i].setAttribute("status", "Done");
     allItems[i]
       .querySelector("span:first-child i")
       .setAttribute(
         "class",
-        "toggle checked bi bi-check-circle-fill clickable"
+        "toggle bi bi-check-circle-fill clickable"
       );
     allItems[i].querySelector("div.item-value").classList.add("done");
     allItems[i].querySelector("div.item-datetimestamp").classList.add("done");
@@ -442,7 +448,8 @@ const markAllNotDone = thisNode => {
   todos = todos.map(item => ({ ...item, done: false }));
   localStorage.setItem("korteHobe", JSON.stringify(todos));
   const allItems = document.querySelectorAll("[status]");
-  for (let i = 0; i < allItems.length; i++) {
+  let loopCycles = allItems.length
+  for (let i = 0; i < loopCycles; i++) {
     allItems[i].setAttribute("status", "Not-done");
     allItems[i]
       .querySelector("span:first-child i")
@@ -477,7 +484,8 @@ const deleteAll = () => {
   localStorage.clear();
   itemCount = 0;
   const allItems = document.querySelectorAll("[status]");
-  for (let i = 0; i < allItems.length; i++) {
+  let loopCycles = allItems.length
+  for (let i = 0; i < loopCycles; i++) {
     allItems[i].remove();
   }
   document.querySelector(".todo-items").style.marginBottom = "0";

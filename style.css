@@ -140,8 +140,12 @@ header #time-now span:last-child {
 	top: -7px;
 }
 
-.material-icons {
-	background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+.bi.header {
+	background: linear-gradient(
+		to right,
+		#d6a4a4,
+		#dae2f8
+	); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 	background-size: 100%;
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -164,6 +168,10 @@ header #time-now span:last-child {
 	border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
+section:nth-child(2):not(:has(ul)) {
+	min-height: 130px;
+}
+
 .todo-input {
 	padding: 20px;
 	background: rgba(255, 255, 255, 0.5);
@@ -184,14 +192,17 @@ header #time-now span:last-child {
 #todo-input-form input {
 	padding: 10px 15px;
 	flex-grow: 1;
+	max-width: 325px;
 	border-radius: 10px 0 0 10px;
 	border: none;
 	outline: none;
+	transition: 0.2s all;
 }
 
 #todo-input-form input:focus {
 	border: none;
 	outline: none;
+	box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px inset;
 }
 
 #todo-input-form input::placeholder {
@@ -263,9 +274,12 @@ ul.todo-items > li {
 	transition: all 0.3s ease-in-out;
 }
 
+ul.todo-items > li:only-child {
+	min-height: 85px;
+}
+
 ul.todo-items > li:not(#search-result):hover {
 	background-color: bisque;
-	/* transform: scale(1.05); */
 }
 
 .search {
@@ -275,13 +289,14 @@ ul.todo-items > li:not(#search-result):hover {
 .search-icon {
 	position: absolute;
 	top: calc(50% - 5px);
-	left: 7px;
+	left: 10px;
 	height: 16px;
 	transform: translateY(-50%);
 }
 
 .search-icon i {
 	font-size: 13px;
+	transition: all 0.3s;
 }
 
 #search-result {
@@ -302,14 +317,53 @@ ul.todo-items > li:not(#search-result):hover {
 	outline: none;
 }
 
+.filter-btn {
+	background-image: linear-gradient(
+		to right,
+		#f5f7fa 0%,
+		#c3cfe2 51%,
+		#f5f7fa 100%
+	);
+	text-decoration: none;
+	background-size: 200% auto;
+	transition: 0.3s;
+}
+
 .filter-btn.active {
-	background: black;
 	color: white;
+	background-image: linear-gradient(
+		to right,
+		#ee0979 0%,
+		#ff6a00 51%,
+		#ee0979 100%
+	);
+	text-align: center;
+	background-size: 200% auto;
+}
+.filter-btn:hover {
+	background-position: right center; /* change the direction of the change here */
 }
 
 #search {
+	max-width: 202px;
 	border-color: white;
-	padding-left: 26px;
+	padding-left: 28px;
+	transition: all 0.3s ease;
+}
+
+#search::placeholder {
+	color: darkgray;
+	font-weight: 100;
+}
+#search:focus::placeholder {
+	color: gray;
+}
+
+#search:focus {
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+#search:focus + .search-icon i {
+	font-size: 14px;
 }
 
 #more-btn {
@@ -336,14 +390,19 @@ ul.todo-items > li:not(#search-result):hover {
 	position: absolute;
 	top: 45px;
 	right: -200px;
-	background-color: g;
+	background-image: linear-gradient(
+		-220deg,
+		#ddd6f3 0%,
+		#faaca8 100%,
+		#faaca8 100%
+	);
 	font-size: small;
 	border-radius: 10px 0 10px 10px;
 	overflow: hidden;
 	z-index: 99;
 	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
 		rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-	transition: all 0.3s ease-in-out;
+	transition: all 0.2s ease-in-out;
 }
 
 #more-btn.open + #more-opt {
@@ -386,27 +445,13 @@ ul.todo-items > li:not(#search-result):hover {
 }
 
 ul.todo-items .toggle {
-	background-image: linear-gradient(
-		to right,
-		#200122 0%,
-		#6f0000 51%,
-		#200122 100%
-	);
+	background-image: linear-gradient(to right, #33001b, #ff0084);
 	background-size: 200% auto;
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	-moz-text-fill-color: transparent;
-}
-
-ul.todo-items .toggle.checked {
-	background-image: linear-gradient(
-		to right,
-		#f00000 0%,
-		#dc281e 51%,
-		#f00000 100%
-	);
 }
 
 ul.todo-items .item-wrap {

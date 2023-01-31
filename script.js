@@ -21,18 +21,23 @@ const meteor = _ => {
     count++;
   }
 };
-meteor();
-window.addEventListener('resize', meteor)
-/* JS for meteor rain effect */
+// meteor();
+// window.addEventListener('resize', meteor)
+
 
 /* JS for To-Do */
 
+// Filter buttons for later use
+const filterAllBtn = document.getElementById("filter-all")
+const filterDoneBtn = document.getElementById("filter-done")
+const filterNotDoneBtn = document.getElementById("filter-not-done")
+
 document.getElementById("day-date").innerHTML = `
-  <i class="bi bi-calendar3"></i> ${createDayDate()}
+  <i class="bi bi-calendar3 header"></i> ${createDayDate()}
 `;
 setInterval(() => {
   document.getElementById("time-now").innerHTML = `
-    <i class="bi bi-hourglass-split"></i>
+    <i class="bi bi-hourglass-split header"></i>
     ${new Date().toLocaleTimeString().substring(0, 8).trim()}
     <span>${new Date().toLocaleTimeString().substring(8).trim()}</span>
   `;
@@ -42,9 +47,9 @@ let itemCount = 0;
 let todos = [];
 const alreadyThere = JSON.parse(localStorage.getItem("korteHobe"));
 
-const showAlreadyThere = () => {
+const showAlreadyThere = (list) => {
   if (alreadyThere != null && alreadyThere.length > 0) {
-    todos = alreadyThere;
+    todos = list ?? alreadyThere;
     document.getElementById("filter-action-row").style.display = "flex";
     checkAllItemStatus();
     todos.map((item, index) => {
@@ -57,8 +62,8 @@ const showAlreadyThere = () => {
 showAlreadyThere();
 
 // Add new item to the list
-document.getElementById("todo-input-form").addEventListener("submit", e => {
-  e.preventDefault();
+const handleSubmit = (event) => {
+  event.preventDefault();
   const todoVal = document.getElementById("todo").value;
   if (todoVal) {
     if (todos.length === 0) {
@@ -73,9 +78,9 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
       editModeOn: false,
     });
     localStorage.setItem("korteHobe", JSON.stringify(todos));
-    document.getElementById("filter-all").classList.add("active");
-    document.getElementById("filter-done").classList.remove("active");
-    document.getElementById("filter-not-done").classList.remove("active");
+    filterAllBtn.classList.add("active");
+    filterDoneBtn.classList.remove("active");
+    filterNotDoneBtn.classList.remove("active");
     filterAll();
     createAndInsertLi(
       itemCount,
@@ -91,31 +96,7 @@ document.getElementById("todo-input-form").addEventListener("submit", e => {
   } else {
     toggleAlert(`<i class='bi bi-exclamation-octagon'></i> Empty inputs not allowed`);
   }
-});
-
-// Filter buttons click events
-
-document.getElementById("filter-all").addEventListener("click", () => {
-  document.getElementById("filter-all").classList.add("active");
-  document.getElementById("filter-done").classList.remove("active");
-  document.getElementById("filter-not-done").classList.remove("active");
-  filterAll();
-});
-
-document.getElementById("filter-done").addEventListener("click", () => {
-  document.getElementById("filter-all").classList.remove("active");
-  document.getElementById("filter-done").classList.add("active");
-  document.getElementById("filter-not-done").classList.remove("active");
-  filterDone(true);
-});
-
-document.getElementById("filter-not-done").addEventListener("click", () => {
-  document.getElementById("filter-all").classList.remove("active");
-  document.getElementById("filter-done").classList.remove("active");
-  document.getElementById("filter-not-done").classList.add("active");
-  document.getElementById("filter-not-done").classList.add("active");
-  filterNotDone(true);
-});
+};
 
 // Close more-opt-list on click outside more-opt button
 document.addEventListener("click", e => {
@@ -125,18 +106,46 @@ document.addEventListener("click", e => {
   closeMoreOptList()
 })
 
-// Dynamic year for footer
-document.getElementById("this-year").innerText = new Date().getFullYear();
+// Filter buttons click events
+let searchList = todos
+const handleFilterAll = () => {
+  filterAllBtn.classList.add("active");
+  filterDoneBtn.classList.remove("active");
+  filterNotDoneBtn.classList.remove("active");
+  document.getElementById('search').value = ''
+  searchList = todos
+  filterAll();
+  document.getElementById('search-result').remove()
+}
+const handleFilterDone = () => {
+  filterAllBtn.classList.remove("active");
+  filterDoneBtn.classList.add("active");
+  filterNotDoneBtn.classList.remove("active");
+  document.getElementById('search').value = ''
+  searchList = todos.filter(todo => todo.done === true)
+  filterDone(true);
+  document.getElementById('search-result').remove()
+}
+const handleFilterNotDone = () => {
+  filterAllBtn.classList.remove("active");
+  filterDoneBtn.classList.remove("active");
+  filterNotDoneBtn.classList.add("active");
+  document.getElementById('search').value = ''
+  searchList = todos.filter(todo => todo.done === false)
+  filterNotDone(true);
+  document.getElementById('search-result').remove()
+};
 
 // Search
 const searchItem = (input) => {
+  // console.log('এখন খোঁজা হচ্ছে এই লিস্টে', searchList)
   const searchStr = input.value.toLowerCase();
-  const searchResult = todos.filter(todo => todo.valueBeforeEdit.toLowerCase().includes(searchStr))
+  const searchResult = searchList.filter(todo => todo.valueBeforeEdit.toLowerCase().includes(searchStr))
   if (searchResult.length === 0) {
     document.querySelector("ul.todo-items").innerHTML = `
-      <li id="search-result">
-        <i class="fa-solid fa-circle-exclamation"></i> No such items found!
-      </li>
+    <li id="search-result">
+    <i class="bi bi-exclamation-triangle-fill"></i> No such items found!
+    </li>
     `;
   } else {
     if (document.getElementById("search-result")) {
@@ -149,3 +158,6 @@ const searchItem = (input) => {
     });
   }
 }
+
+// Dynamic year for footer
+document.getElementById("this-year").innerText = new Date().getFullYear();

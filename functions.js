@@ -345,12 +345,12 @@ const filterAll = () => {
  * Shows only the items that are already 'Done' and filters out the rest
  * @param {Boolean} allOrDone 
  */
-const filterDone = allOrDone => {
+const filterDone = () => {
   const allItems = document.querySelectorAll("[status]");
   let loopCycles = allItems.length
   for (let i = 0; i < loopCycles; i++) {
     if (allItems[i].getAttribute("status") === "Done") {
-      allItems[i].style.display = `${allOrDone ? "flex" : "none"}`;
+      allItems[i].style.display = "flex";
     } else {
       allItems[i].style.display = "none";
     }
@@ -361,12 +361,12 @@ const filterDone = allOrDone => {
  * Shows only the items that are 'Not Done' yet and filters out the rest
  * @param {Boolean} allOrNotdone 
  */
-const filterNotDone = allOrNotdone => {
+const filterNotDone = () => {
   const allItems = document.querySelectorAll("[status]");
   let loopCycles = allItems.length
   for (let i = 0; i < loopCycles; i++) {
     if (allItems[i].getAttribute("status") === "Not-done") {
-      allItems[i].style.display = `${allOrNotdone ? "flex" : "none"}`;
+      allItems[i].style.display = "flex";
     } else {
       allItems[i].style.display = "none";
     }

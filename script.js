@@ -24,13 +24,12 @@ const meteor = _ => {
 // meteor();
 // window.addEventListener('resize', meteor)
 
-
 /* JS for To-Do */
 
 // Filter buttons for later use
-const filterAllBtn = document.getElementById("filter-all")
-const filterDoneBtn = document.getElementById("filter-done")
-const filterNotDoneBtn = document.getElementById("filter-not-done")
+const filterAllBtn = document.getElementById("filter-all");
+const filterDoneBtn = document.getElementById("filter-done");
+const filterNotDoneBtn = document.getElementById("filter-not-done");
 
 document.getElementById("day-date").innerHTML = `
   <i class="bi bi-calendar3 header"></i> ${createDayDate()}
@@ -47,9 +46,9 @@ let itemCount = 0;
 let todos = [];
 const alreadyThere = JSON.parse(localStorage.getItem("korteHobe"));
 
-const showAlreadyThere = (list) => {
+const showAlreadyThere = () => {
   if (alreadyThere != null && alreadyThere.length > 0) {
-    todos = list ?? alreadyThere;
+    todos = alreadyThere;
     document.getElementById("filter-action-row").style.display = "flex";
     checkAllItemStatus();
     todos.map((item, index) => {
@@ -57,12 +56,12 @@ const showAlreadyThere = (list) => {
       createAndInsertLi(index, valueBeforeEdit, done, createdDate, createdTime);
     });
   }
-}
+};
 
 showAlreadyThere();
 
 // Add new item to the list
-const handleSubmit = (event) => {
+const handleSubmit = event => {
   event.preventDefault();
   const todoVal = document.getElementById("todo").value;
   if (todoVal) {
@@ -92,70 +91,88 @@ const handleSubmit = (event) => {
     document.getElementById("todo").value = "";
     toggleAlert("Item Added");
     itemCount++;
-    document.getElementById("todo").blur()
+    document.getElementById("todo").blur();
   } else {
-    toggleAlert(`<i class='bi bi-exclamation-octagon'></i> Empty inputs not allowed`);
+    toggleAlert(
+      `<i class='bi bi-exclamation-octagon'></i> Empty inputs not allowed`
+    );
   }
 };
 
 // Close more-opt-list on click outside more-opt button
 document.addEventListener("click", e => {
-  if (e.target.closest('#more-btn, #more-opt-list')) {
-    return
+  if (e.target.closest("#more-btn, #more-opt-list")) {
+    return;
   }
-  closeMoreOptList()
-})
+  closeMoreOptList();
+});
 
 // Filter buttons click events
-let searchList = todos
+let searchStr;
 const handleFilterAll = () => {
   filterAllBtn.classList.add("active");
   filterDoneBtn.classList.remove("active");
   filterNotDoneBtn.classList.remove("active");
-  document.getElementById('search').value = ''
-  searchList = todos
   filterAll();
-  document.getElementById('search-result').remove()
-}
+  searchItem()
+};
 const handleFilterDone = () => {
   filterAllBtn.classList.remove("active");
   filterDoneBtn.classList.add("active");
   filterNotDoneBtn.classList.remove("active");
-  document.getElementById('search').value = ''
-  searchList = todos.filter(todo => todo.done === true)
-  filterDone(true);
-  document.getElementById('search-result').remove()
-}
+  filterDone();
+  searchItem()
+};
 const handleFilterNotDone = () => {
   filterAllBtn.classList.remove("active");
   filterDoneBtn.classList.remove("active");
   filterNotDoneBtn.classList.add("active");
-  document.getElementById('search').value = ''
-  searchList = todos.filter(todo => todo.done === false)
-  filterNotDone(true);
-  document.getElementById('search-result').remove()
+  filterNotDone();
+  searchItem()
 };
 
 // Search
-const searchItem = (input) => {
-  // console.log('এখন খোঁজা হচ্ছে এই লিস্টে', searchList)
-  const searchStr = input.value.toLowerCase();
-  const searchResult = searchList.filter(todo => todo.valueBeforeEdit.toLowerCase().includes(searchStr))
-  if (searchResult.length === 0) {
-    document.querySelector("ul.todo-items").innerHTML = `
-    <li id="search-result">
-    <i class="bi bi-exclamation-triangle-fill"></i> No such items found!
-    </li>
-    `;
-  } else {
-    if (document.getElementById("search-result")) {
-      document.getElementById("search-result").remove();
+function searchItem() {
+  searchStr = document.getElementById("search").value;
+
+  let allTodoNodes;
+  if (filterAllBtn.classList.contains("active"))
+    allTodoNodes = document.querySelectorAll("[status]");
+  if (filterDoneBtn.classList.contains("active"))
+    allTodoNodes = document.querySelectorAll("[status=Done]");
+  if (filterNotDoneBtn.classList.contains("active"))
+    allTodoNodes = document.querySelectorAll("[status=Not-done]");
+
+  if (searchStr !== "") {
+    let noMatchCount = 0;
+    for (let i = 0; i < allTodoNodes.length; i++) {
+      if (
+        allTodoNodes[i]
+          .querySelector(".item-value")
+          .innerText.toLowerCase()
+          .includes(searchStr)
+      ) {
+        allTodoNodes[i].style.display = "flex";
+        document.getElementById("no-match-found")?.remove();
+      } else {
+        ++noMatchCount;
+        allTodoNodes[i].style.display = "none";
+      }
     }
-    document.querySelector('.todo-items').innerHTML = ''
-    searchResult.forEach((item, index) => {
-      const { valueBeforeEdit, done, createdDate, createdTime } = item;
-      createAndInsertLi(index, valueBeforeEdit, done, createdDate, createdTime);
-    });
+    const noMatchResult = document.createElement("li");
+    noMatchResult.setAttribute("id", "no-match-found");
+    noMatchResult.innerHTML = `
+      <i class="bi bi-exclamation-triangle-fill"></i> No such items found!
+    `;
+    if (noMatchCount === allTodoNodes.length) {
+      document.getElementById("no-match-found") ??
+        document.querySelector("ul.todo-items").appendChild(noMatchResult);
+    }
+  } else {
+    for (let i = 0; i < allTodoNodes.length; i++) {
+      allTodoNodes[i].style.display = "flex";
+      document.getElementById("no-match-found")?.remove();
+    }
   }
 }
 

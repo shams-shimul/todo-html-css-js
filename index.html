@@ -45,10 +45,8 @@
         <div id="filter-action-row">
           <div class="search">
             <form>
-              <input type="search" id="search" placeholder="Search..." oninput="searchItem(this)"/>
-              <div class="search-icon">
-                <i class="bi bi-search"></i>
-              </div>
+              <input type="search" id="search" placeholder="Search..." oninput="searchItem()" />
+              <i class="bi bi-search search-icon"></i>
             </form>
           </div>
           <button type='button' class="filter-btn clickable active" id="filter-all" onclick="handleFilterAll()">
@@ -78,9 +76,9 @@
       </section>
     </main>
     <footer>
-      No Copyright &copy; <span id="this-year"></span> | Made with
+      Designed and developed with
       <i class="bi bi-suit-heart-fill"></i> by
-      <a href="https://github.com/shams-shimul" target="_blank">Shams Shimul</a>
+      <a href="https://github.com/shams-shimul" target="_blank">Shams Shimul</a> :::: No &copy; <span id="this-year"></span> 
     </footer>
     <div class="backdrop"></div>
     <div class="alert"></div>

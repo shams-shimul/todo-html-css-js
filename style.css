@@ -1,10 +1,16 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400&family=Poppins:wght@300;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+:root {
+	--primary-font: "Manrope", sans-serif;
+	--secondary-font: "Quicksand", serif;
+	--secondary-font-weight: 600;
+}
 
 * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
-	font-family: "Poppins", sans-serif;
+	font-family: var(--primary-font);
 	font-size: 1em;
 }
 
@@ -13,6 +19,7 @@ body {
 	min-height: 100vh;
 	background: linear-gradient(320deg, #f27121, #e94057, #8a2387);
 	padding: 30px 0 100px;
+	font-weight: 600;
 }
 
 /* CSS starts for meteor rain effect  */
@@ -95,11 +102,19 @@ i.meteor {
 	top: -25%;
 	left: 50%;
 	transform: translateX(-50%);
+	border-radius: 14px;
 	padding: 15px 20px;
 	background-color: aqua;
-	background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
+	background-image: linear-gradient(
+		135deg,
+		#69ff97 10%,
+		#00e4ff 51%,
+		#69ff97 100%
+	);
+	background-size: 200%;
 	width: max-content;
 	transition: all 0.3s ease-in-out;
+	animation: gradient 1s infinite cubic-bezier(0.62, 0.28, 0.23, 0.99) both;
 }
 
 header {
@@ -123,7 +138,7 @@ header #day-date {
 header #date-time {
 	display: flex;
 	justify-content: space-between;
-	font-weight: 300;
+	font-weight: 400;
 	font-size: 22px;
 	margin-top: 5px;
 }
@@ -186,14 +201,13 @@ section:nth-child(2):not(:has(ul)) {
 #todo-input-form {
 	width: 100%;
 	display: flex;
-	column-gap: 20px;
+	/* column-gap: 20px; */
 }
 
 #todo-input-form input {
 	padding: 10px 15px;
 	flex-grow: 1;
-	max-width: 325px;
-	border-radius: 10px 0 0 10px;
+	border-radius: 10px;
 	border: none;
 	outline: none;
 	transition: 0.2s all;
@@ -210,6 +224,7 @@ section:nth-child(2):not(:has(ul)) {
 }
 
 .btn-submit {
+	position: relative;
 	background-image: linear-gradient(
 		to right,
 		#dc2430 0%,
@@ -217,7 +232,7 @@ section:nth-child(2):not(:has(ul)) {
 		#061161 80%
 	);
 	background-size: 800% 400%;
-	padding: 10px 15px;
+	padding: 10px 25px;
 	display: inline-block;
 	border: none;
 	border-radius: 0 10px 10px 0;
@@ -226,15 +241,55 @@ section:nth-child(2):not(:has(ul)) {
 	animation: gradient 10s infinite cubic-bezier(0.62, 0.28, 0.23, 0.99) both;
 }
 
-.btn-submit:hover {
+.btn-submit::before {
+	position: absolute;
+	content: "";
+	width: 20px;
+	height: 20px;
+	background-image: linear-gradient(
+		to right,
+		#dc2430 0%,
+		#780206 41%,
+		#061161 80%
+	);
+	background-size: 800% 400%;
+	top: 0;
+	left: -10px;
+	z-index: -1;
+	animation: gradient 10s infinite cubic-bezier(0.62, 0.28, 0.23, 0.99) both;
+}
+
+.btn-submit::after {
+	position: absolute;
+	content: "";
+	width: 20px;
+	height: 20px;
+	background-image: linear-gradient(
+		to right,
+		#dc2430 0%,
+		#780206 41%,
+		#061161 80%
+	);
+	background-size: 800% 400%;
+	bottom: 0;
+	left: -10px;
+	z-index: -1;
+	animation: gradient 10s infinite cubic-bezier(0.62, 0.28, 0.23, 0.99) both;
+}
+
+.btn-submit:hover,
+.btn-submit:hover::before,
+.btn-submit:hover::after {
 	animation: gradient 3s infinite;
-	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-	transform: scale(1.05);
 }
 
 .btn-submit:active {
 	animation: gradient 0.3s infinite;
 	transform: scale(0.8);
+}
+
+.btn-submit:focus-visible {
+	outline: none;
 }
 
 @keyframes gradient {
@@ -278,7 +333,7 @@ ul.todo-items > li:only-child {
 	min-height: 85px;
 }
 
-ul.todo-items > li:not(#search-result):hover {
+ul.todo-items > li:not(#no-match-found):hover {
 	background-color: bisque;
 }
 
@@ -288,22 +343,21 @@ ul.todo-items > li:not(#search-result):hover {
 
 .search-icon {
 	position: absolute;
-	top: calc(50% - 5px);
+	top: calc(50%);
 	left: 10px;
-	height: 16px;
 	transform: translateY(-50%);
 }
 
-.search-icon i {
+.search-icon {
 	font-size: 13px;
 	transition: all 0.3s;
 }
 
-#search-result {
+#no-match-found {
 	justify-content: center;
 }
 
-#search-result i {
+#no-match-found i {
 	color: orangered;
 }
 
@@ -325,6 +379,7 @@ ul.todo-items > li:not(#search-result):hover {
 		#f5f7fa 100%
 	);
 	text-decoration: none;
+	text-align: center;
 	background-size: 200% auto;
 	transition: 0.3s;
 }
@@ -337,8 +392,7 @@ ul.todo-items > li:not(#search-result):hover {
 		#ff6a00 51%,
 		#ee0979 100%
 	);
-	text-align: center;
-	background-size: 200% auto;
+	font-weight: 500;
 }
 .filter-btn:hover {
 	background-position: right center; /* change the direction of the change here */
@@ -398,13 +452,11 @@ ul.todo-items > li:not(#search-result):hover {
 	);
 	font-size: small;
 	border-radius: 10px 0 10px 10px;
-	overflow: hidden;
 	z-index: 99;
 	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
 		rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 	transition: all 0.2s ease-in-out;
 }
-
 #more-btn.open + #more-opt {
 	right: 12px;
 }
@@ -473,7 +525,8 @@ ul.todo-items .item-value.done {
 }
 
 ul.todo-items .item-datetimestamp {
-	font-family: "IBM Plex Sans Arabic", sans-serif;
+	font-family: var(--secondary-font);
+	font-weight: var(--secondary-font-weight);
 	font-size: small;
 	color: darkslategray;
 }

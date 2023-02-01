@@ -201,13 +201,12 @@ section:nth-child(2):not(:has(ul)) {
 #todo-input-form {
 	width: 100%;
 	display: flex;
-	/* column-gap: 20px; */
 }
 
-#todo-input-form input {
+#todo-input-form input[type="text"] {
 	padding: 10px 15px;
 	flex-grow: 1;
-	border-radius: 10px;
+	border-radius: 10px 0 0 10px;
 	border: none;
 	outline: none;
 	transition: 0.2s all;
@@ -241,45 +240,7 @@ section:nth-child(2):not(:has(ul)) {
 	animation: gradient 10s infinite cubic-bezier(0.62, 0.28, 0.23, 0.99) both;
 }
 
-.btn-submit::before {
-	position: absolute;
-	content: "";
-	width: 20px;
-	height: 20px;
-	background-image: linear-gradient(
-		to right,
-		#dc2430 0%,
-		#780206 41%,
-		#061161 80%
-	);
-	background-size: 800% 400%;
-	top: 0;
-	left: -10px;
-	z-index: -1;
-	animation: gradient 10s infinite cubic-bezier(0.62, 0.28, 0.23, 0.99) both;
-}
-
-.btn-submit::after {
-	position: absolute;
-	content: "";
-	width: 20px;
-	height: 20px;
-	background-image: linear-gradient(
-		to right,
-		#dc2430 0%,
-		#780206 41%,
-		#061161 80%
-	);
-	background-size: 800% 400%;
-	bottom: 0;
-	left: -10px;
-	z-index: -1;
-	animation: gradient 10s infinite cubic-bezier(0.62, 0.28, 0.23, 0.99) both;
-}
-
-.btn-submit:hover,
-.btn-submit:hover::before,
-.btn-submit:hover::after {
+.btn-submit:hover {
 	animation: gradient 3s infinite;
 }
 
@@ -329,7 +290,8 @@ ul.todo-items > li {
 	transition: all 0.3s ease-in-out;
 }
 
-ul.todo-items > li:only-child {
+ul.todo-items > li:only-child,
+ul.todo-items > li.only-visible {
 	min-height: 85px;
 }
 
@@ -555,13 +517,12 @@ ul.todo-items > li:hover .action-icons.set-1 {
 }
 
 footer {
-	height: 100px;
-	line-height: 100px;
-	text-align: center;
 	position: absolute;
 	bottom: 0;
 	width: 100%;
 	font-size: small;
+	padding: 20px;
+	text-align: center;
 }
 
 footer a {

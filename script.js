@@ -21,8 +21,8 @@ const meteor = _ => {
     count++;
   }
 };
-// meteor();
-// window.addEventListener('resize', meteor)
+meteor();
+window.addEventListener('resize', meteor)
 
 /* JS for To-Do */
 
@@ -153,12 +153,20 @@ function searchItem() {
           .includes(searchStr)
       ) {
         allTodoNodes[i].style.display = "flex";
+        noMatchCount === allTodoNodes.length - 1 ? allTodoNodes[i].classList.add('only-visible') : document.querySelector('.only-visible')?.classList.remove('only-visible')
         document.getElementById("no-match-found")?.remove();
       } else {
         ++noMatchCount;
         allTodoNodes[i].style.display = "none";
       }
     }
+
+    if (noMatchCount === allTodoNodes.length - 1) {
+      document.querySelector(`ul.todo-items li[style="display: flex;"]`).classList.add('only-visible')
+    } else {
+      document.querySelector('.only-visible')?.classList.remove('only-visible')
+    }
+
     const noMatchResult = document.createElement("li");
     noMatchResult.setAttribute("id", "no-match-found");
     noMatchResult.innerHTML = `

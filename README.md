@@ -1,6 +1,6 @@
 # Another, but not your average, To-Do!
 
-![image](https://user-images.githubusercontent.com/65963238/216475164-8c1c5ba3-faf9-4a11-ba08-1d555e707578.png)
+![image](https://user-images.githubusercontent.com/65963238/216475946-922d3c6e-1fd4-4dee-9584-72ec56e75a04.png)
 
 
 Yes, you heard it right. Because this app does not just logs your to-do items into the local storage of the browser, and deletes them when commanded, it does a lot more things including:

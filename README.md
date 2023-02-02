@@ -10,6 +10,7 @@ Yes, you heard it right. Because this app does not just logs your to-do items in
  - Batch processing the list (marking/unmarking/deleting all at once)
  - Editing multiple items at the same time and accurately keeping track of what changes made to which item
  - Showing beautiful alerts on certain actions (add/update/delete)
+ - Fully responsive layout across all the screen sizes (I hope!)
  - Pleasing eyes with soothing meteor rain effects, beautiful gradients, and a few color shifting animations
 
 Coded purely in HTML, CSS, and JavaScript. Took me ages longer than what I initially expected, nonetheless I'm happy that finally I've been able to finish it.

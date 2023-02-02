@@ -21,8 +21,8 @@ const meteor = _ => {
     count++;
   }
 };
-// meteor();
-// window.addEventListener('resize', meteor)
+meteor();
+window.addEventListener('resize', meteor)
 
 /* JS for To-Do */
 

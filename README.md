@@ -1,5 +1,8 @@
 # Another, but not your average, To-Do!
 
+![image](https://user-images.githubusercontent.com/65963238/216475164-8c1c5ba3-faf9-4a11-ba08-1d555e707578.png)
+
+
 Yes, you heard it right. Because this app does not just logs your to-do items into the local storage of the browser, and deletes them when commanded, it does a lot more things including:
 
  - Displays the current date and moving time 'loudly' to keep you reminded of that you're doing nothing, dude!

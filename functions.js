@@ -32,14 +32,13 @@ const createDayDate = () => {
   return `${dayName}, ${monthName} ${thisDayDate.getDate()}, ${thisDayDate.getFullYear()}`;
 };
 
-
 /**
  * Generates the contents of each <li> and append to the list <ul>
- * @param {Number} id 
- * @param {String} stringVal 
- * @param {Boolean} status 
- * @param {String} date 
- * @param {String} time 
+ * @param {Number} id
+ * @param {String} stringVal
+ * @param {Boolean} status
+ * @param {String} date
+ * @param {String} time
  */
 const createAndInsertLi = (id, stringVal, status, date, time) => {
   const newElem = document.createElement("li");
@@ -70,7 +69,6 @@ const createAndInsertLi = (id, stringVal, status, date, time) => {
   document.querySelector("ul.todo-items").appendChild(newElem);
 };
 
-
 /**
  * Check whether all items are done, or not-done, or a mixture of both
  */
@@ -78,7 +76,7 @@ const checkAllItemStatus = () => {
   // check if all items are 'done' or 'not-done'
   let doneCount = 0;
   let notDoneCount = 0;
-  let loopCycles = todos.length
+  let loopCycles = todos.length;
   for (let i = 0; i < loopCycles; i++) {
     todos[i].done ? ++doneCount : ++notDoneCount;
   }
@@ -116,10 +114,9 @@ const checkAllItemStatus = () => {
   }
 };
 
-
 /**
  * Makes the text content of the passed HTML DOM node editable and toggle action icons
- * @param {HTMLElement} thisNode 
+ * @param {HTMLElement} thisNode
  */
 const editItem = thisNode => {
   const itemPos = thisNode.parentElement.parentElement
@@ -128,10 +125,9 @@ const editItem = thisNode => {
   toggleEditAndIcons(thisNode, itemPos);
 };
 
-
 /**
  * Deletes the DOM node and the corresponding item from the todo list
- * @param {HTMLElement} thisNode 
+ * @param {HTMLElement} thisNode
  */
 const deleteItem = thisNode => {
   const itemPos = Number(
@@ -147,7 +143,7 @@ const deleteItem = thisNode => {
   localStorage.setItem("korteHobe", JSON.stringify(todos));
   thisNode.parentElement.parentElement.remove();
   const allRows = document.querySelectorAll(".todo-items>li");
-  let loopCycles = todos.length
+  let loopCycles = todos.length;
   for (let i = 0; i < loopCycles; i++) {
     if (i === itemPos || i > itemPos) {
       allRows[i].setAttribute("id", `item-${i}`);
@@ -156,10 +152,9 @@ const deleteItem = thisNode => {
   toggleAlert("Item Deleted");
 };
 
-
 /**
- * Removes the 'content-editable' from the node and saves the string in the same index of the todo list 
- * @param {HTMLElement} thisNode 
+ * Removes the 'content-editable' from the node and saves the string in the same index of the todo list
+ * @param {HTMLElement} thisNode
  */
 const saveEdit = thisNode => {
   const itemPos = thisNode.parentElement.parentElement
@@ -182,10 +177,9 @@ const saveEdit = thisNode => {
   toggleEditAndIcons(thisNode, itemPos);
 };
 
-
 /**
  * Cancels the edit mode of the node, scraps the new text string if any, and restores the old text content
- * @param {HTMLElement} thisNode 
+ * @param {HTMLElement} thisNode
  */
 const cancelEdit = thisNode => {
   const itemPos = thisNode.parentElement.parentElement
@@ -196,10 +190,9 @@ const cancelEdit = thisNode => {
   toggleEditAndIcons(thisNode, itemPos);
 };
 
-
 /**
  * Saves/cancels the current edit of the text content of the node on 'Enter/Escape' Keypress on edit mode
- * @param {HTMLElement} thisNode 
+ * @param {HTMLElement} thisNode
  */
 const actionOnKeydown = thisNode => {
   const itemPos = thisNode.parentElement.parentElement
@@ -229,13 +222,12 @@ const actionOnKeydown = thisNode => {
   localStorage.setItem("korteHobe", JSON.stringify(todos));
 };
 
-
 /**
  * Shows/Hides a custom alert with the passed text string as the message on adding/editing/deleting of items
- * @param {String} label 
+ * @param {String} label
  */
 const toggleAlert = label => {
-  document.querySelector(".alert").innerHTML = label
+  document.querySelector(".alert").innerHTML = label;
   document.querySelector(".alert").style.top = "35px";
   document.querySelector(".backdrop").style.visibility = "visible";
   setTimeout(() => {
@@ -244,10 +236,9 @@ const toggleAlert = label => {
   }, 2000);
 };
 
-
 /**
  * Toggles between the 'Done'/'Not Done' status of the correspondin item of the node and visual appearance
- * @param {HTMLElement} thisNode 
+ * @param {HTMLElement} thisNode
  */
 const toggleDone = thisNode => {
   const itemPos = thisNode.parentElement.parentElement
@@ -295,11 +286,10 @@ const toggleDone = thisNode => {
   checkAllItemStatus();
 };
 
-
 /**
  * Toggles between edit/normal mode of the node and action icons
- * @param {HTMLElement} thisNode 
- * @param {Number} itemPos 
+ * @param {HTMLElement} thisNode
+ * @param {Number} itemPos
  */
 const toggleEditAndIcons = (thisNode, itemPos) => {
   if (todos[itemPos].editModeOn) {
@@ -333,46 +323,90 @@ const toggleEditAndIcons = (thisNode, itemPos) => {
 /**
  * Shows all the items of the todo list
  */
-const filterAll = () => {
+function filterAll() {
   const allItems = document.querySelectorAll("[status]");
-  let loopCycles = allItems.length
+  let loopCycles = allItems.length;
   for (let i = 0; i < loopCycles; i++) {
     allItems[i].style.display = "flex";
+    allItems[i].classList.remove("lone-visible");
   }
-};
+}
 
 /**
  * Shows only the items that are already 'Done' and filters out the rest
- * @param {Boolean} allOrDone 
+ * @param {Boolean} allOrDone
  */
-const filterDone = () => {
+function filterDone() {
   const allItems = document.querySelectorAll("[status]");
-  let loopCycles = allItems.length
+  let loopCycles = allItems.length;
+  let disqualified = 0;
   for (let i = 0; i < loopCycles; i++) {
     if (allItems[i].getAttribute("status") === "Done") {
       allItems[i].style.display = "flex";
     } else {
+      ++disqualified;
       allItems[i].style.display = "none";
     }
   }
-};
+
+  if (disqualified === loopCycles - 1) {
+    document
+      .querySelector(`ul.todo-items li[style="display: flex;"]`)
+      .classList.add("lone-visible");
+  } else {
+    document.querySelector(".lone-visible")?.classList.remove("lone-visible");
+  }
+
+  if (disqualified === loopCycles) {
+    const nothingLi = document.createElement("li");
+    nothingLi.setAttribute("id", "no-match-found");
+    nothingLi.innerHTML = `
+      <i class="bi bi-exclamation-triangle-fill"></i> Nothing is done yet! Go, go, go...
+    `;
+    document.querySelector("ul.todo-items").appendChild(nothingLi);
+    document.getElementById("no-match-found").classList.add("lone-visible");
+  } else {
+    document.getElementById("no-match-found")?.remove()
+  }
+}
 
 /**
  * Shows only the items that are 'Not Done' yet and filters out the rest
- * @param {Boolean} allOrNotdone 
+ * @param {Boolean} allOrNotdone
  */
-const filterNotDone = () => {
+function filterNotDone() {
   const allItems = document.querySelectorAll("[status]");
-  let loopCycles = allItems.length
+  let loopCycles = allItems.length;
+  let disqualified = 0;
   for (let i = 0; i < loopCycles; i++) {
     if (allItems[i].getAttribute("status") === "Not-done") {
       allItems[i].style.display = "flex";
     } else {
+      ++disqualified;
       allItems[i].style.display = "none";
     }
   }
-};
 
+  if (disqualified === allItems.length - 1) {
+    document
+      .querySelector(`ul.todo-items li[style="display: flex;"]`)
+      .classList.add("lone-visible");
+  } else {
+    document.querySelector(".lone-visible")?.classList.remove("lone-visible");
+  }
+
+  if (disqualified === loopCycles) {
+    const nothingLi = document.createElement("li");
+    nothingLi.setAttribute("id", "no-match-found");
+    nothingLi.innerHTML = `
+      🥳 Nothing to worry about. Kudos! 🎉
+    `;
+    document.querySelector("ul.todo-items").appendChild(nothingLi);
+    document.getElementById("no-match-found").classList.add("lone-visible");
+  } else {
+    document.getElementById("no-match-found")?.remove()
+  }
+}
 
 /**
  * Opens the more actions menu list on click on the hambruger button
@@ -392,7 +426,7 @@ const closeMoreOptList = () => {
 };
 /**
  * Controls whether to open/close the more actions menu list
- * @param {HTMLElement} thisNode 
+ * @param {HTMLElement} thisNode
  */
 const toggleMoreOpt = thisNode => {
   if (thisNode.querySelector("i").classList.contains("close-more")) {
@@ -402,35 +436,27 @@ const toggleMoreOpt = thisNode => {
   }
 };
 
-
 /**
  * Marks all todo items as 'Done' and changes appearance of the nodes accordingly
- * @param {HTMLElement} thisNode 
+ * @param {HTMLElement} thisNode
  */
 const markAllDone = thisNode => {
   todos = todos.map(item => ({ ...item, done: true }));
   localStorage.setItem("korteHobe", JSON.stringify(todos));
   const allItems = document.querySelectorAll("[status]");
-  let loopCycles = allItems.length
+  let loopCycles = allItems.length;
   for (let i = 0; i < loopCycles; i++) {
     allItems[i].setAttribute("status", "Done");
     allItems[i]
       .querySelector("span:first-child i")
-      .setAttribute(
-        "class",
-        "toggle bi bi-check-circle-fill clickable"
-      );
+      .setAttribute("class", "toggle bi bi-check-circle-fill clickable");
     allItems[i].querySelector("div.item-value").classList.add("done");
     allItems[i].querySelector("div.item-datetimestamp").classList.add("done");
   }
 
-  // When All/Done category is active, show 'done' items, else hide
-  if (
-    document.getElementById("filter-all").classList.contains("active") ||
-    document.getElementById("filter-done").classList.contains("active")
-  ) {
-    filterDone(true);
-  } else filterDone();
+  // When Done/Not-Done category is active, show/hide 'done' items
+  document.getElementById("filter-done").classList.contains("active") && filterDone();
+  document.getElementById("filter-not-done").classList.contains("active") && filterNotDone();
 
   // disabling the mark-all-done button
   thisNode.setAttribute("class", "disabled");
@@ -442,13 +468,13 @@ const markAllDone = thisNode => {
 
 /**
  * Marks all todo items as 'Not Done' and changes appearance of the nodes accordingly
- * @param {HTMLElement} thisNode 
+ * @param {HTMLElement} thisNode
  */
 const markAllNotDone = thisNode => {
   todos = todos.map(item => ({ ...item, done: false }));
   localStorage.setItem("korteHobe", JSON.stringify(todos));
   const allItems = document.querySelectorAll("[status]");
-  let loopCycles = allItems.length
+  let loopCycles = allItems.length;
   for (let i = 0; i < loopCycles; i++) {
     allItems[i].setAttribute("status", "Not-done");
     allItems[i]
@@ -461,12 +487,8 @@ const markAllNotDone = thisNode => {
   }
 
   // When All/Not Done Yet category is active, show 'not-done' items, else hide
-  if (
-    document.getElementById("filter-all").classList.contains("active") ||
-    document.getElementById("filter-not-done").classList.contains("active")
-  ) {
-    filterNotDone(true);
-  } else filterNotDone();
+  document.getElementById("filter-done").classList.contains("active") && filterDone();
+  document.getElementById("filter-not-done").classList.contains("active") && filterNotDone();
 
   // disabling the mark-all-done button
   thisNode.setAttribute("class", "disabled");
@@ -484,7 +506,7 @@ const deleteAll = () => {
   localStorage.clear();
   itemCount = 0;
   const allItems = document.querySelectorAll("[status]");
-  let loopCycles = allItems.length
+  let loopCycles = allItems.length;
   for (let i = 0; i < loopCycles; i++) {
     allItems[i].remove();
   }
@@ -503,4 +525,14 @@ const deleteAll = () => {
   document
     .querySelector("#more-opt-list li:nth-child(2)")
     .removeAttribute("onclick");
+};
+
+/**
+ * expands the width of the provided node which is a wrapper for the search field on mobile devices
+ * @param {HTMLElement} thisNode
+ */
+const expandSearchMini = thisNode => {
+  document.querySelector(".filter-btn-group").style.display = "none";
+  thisNode.classList.add("expanded");
+  thisNode.querySelector("input").focus();
 };

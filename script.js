@@ -21,8 +21,8 @@ const meteor = _ => {
     count++;
   }
 };
-meteor();
-window.addEventListener('resize', meteor)
+// meteor();
+// window.addEventListener('resize', meteor)
 
 /* JS for To-Do */
 
@@ -107,6 +107,22 @@ document.addEventListener("click", e => {
   closeMoreOptList();
 });
 
+document.addEventListener("click", e => {
+  const miniSearch = document.querySelector(".search-mini");
+  if (
+    e.target.closest(".search-mini") &&
+    miniSearch.classList.contains("expanded")
+  )
+    return;
+  miniSearch.classList.remove("expanded");
+  // document.querySelector('#search-mini').value = ''
+  // document.querySelector('#search').value = ''
+  document.querySelector(".filter-btn-group").style.display = "initial";
+  miniSearch.querySelector("input").value
+    ? miniSearch.classList.add("dirty")
+    : miniSearch.classList.remove("dirty");
+});
+
 // Filter buttons click events
 let searchStr;
 const handleFilterAll = () => {
@@ -114,25 +130,26 @@ const handleFilterAll = () => {
   filterDoneBtn.classList.remove("active");
   filterNotDoneBtn.classList.remove("active");
   filterAll();
-  searchItem()
+  searchItem();
 };
 const handleFilterDone = () => {
   filterAllBtn.classList.remove("active");
   filterDoneBtn.classList.add("active");
   filterNotDoneBtn.classList.remove("active");
   filterDone();
-  searchItem()
+  searchItem();
 };
 const handleFilterNotDone = () => {
   filterAllBtn.classList.remove("active");
   filterDoneBtn.classList.remove("active");
   filterNotDoneBtn.classList.add("active");
   filterNotDone();
-  searchItem()
+  searchItem();
 };
 
 // Search
-function searchItem() {
+function searchItem(thisNode) {
+  thisNode && (document.getElementById("search").value = thisNode.value);
   searchStr = document.getElementById("search").value;
 
   let allTodoNodes;
@@ -152,9 +169,8 @@ function searchItem() {
           .innerText.toLowerCase()
           .includes(searchStr)
       ) {
-        allTodoNodes[i].style.display = "flex";
-        noMatchCount === allTodoNodes.length - 1 ? allTodoNodes[i].classList.add('only-visible') : document.querySelector('.only-visible')?.classList.remove('only-visible')
         document.getElementById("no-match-found")?.remove();
+        allTodoNodes[i].style.display = "flex";
       } else {
         ++noMatchCount;
         allTodoNodes[i].style.display = "none";
@@ -162,9 +178,11 @@ function searchItem() {
     }
 
     if (noMatchCount === allTodoNodes.length - 1) {
-      document.querySelector(`ul.todo-items li[style="display: flex;"]`).classList.add('only-visible')
+      document
+        .querySelector(`ul.todo-items li[style="display: flex;"]`)
+        .classList.add("lone-visible");
     } else {
-      document.querySelector('.only-visible')?.classList.remove('only-visible')
+      document.querySelector(".lone-visible")?.classList.remove("lone-visible");
     }
 
     const noMatchResult = document.createElement("li");

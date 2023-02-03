@@ -35,7 +35,6 @@ body {
 
 i.meteor {
 	position: absolute;
-	height: 160px;
 	background: linear-gradient(transparent, rgb(255 255 255 / 0.4));
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;

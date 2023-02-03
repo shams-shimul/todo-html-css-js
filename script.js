@@ -1,7 +1,7 @@
 /* JS for meteor rain effect */
 const meteor = _ => {
   let amount;
-  window.innerWidth <= 450 ? (amount = 30) : (amount = 100)
+  window.innerWidth <= 450 ? (amount = 20) : (amount = 100)
   let rainBg = document.getElementById("rain-bg");
   let count = 0;
 

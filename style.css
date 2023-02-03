@@ -578,7 +578,7 @@ footer a {
 }
 
 /* Media query for touch screen devices */
-@media screen and (pointer: none) {
+@media screen and (hover: none) {
 	ul.todo-items .action-icons.set-1 {
 		visibility: visible;
 	}

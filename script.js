@@ -1,18 +1,21 @@
 /* JS for meteor rain effect */
 const meteor = _ => {
-  let amount = 150;
+  let amount;
+  window.innerWidth <= 450 ? (amount = 30) : (amount = 100)
   let rainBg = document.getElementById("rain-bg");
   let count = 0;
 
   while (count < amount) {
     let drop = document.createElement("i");
     drop.setAttribute("class", "meteor");
-    let size = Math.random() * 5;
-    let posX = Math.floor(Math.random() * window.innerWidth);
+    let width = Math.random() * 5;
+    let height = Math.random() * 100;
+    let posX = Math.floor(Math.random() * (window.innerWidth + 120));
     let delay = Math.random() * -20;
     let duration = Math.random() * 5;
 
-    drop.style.width = `${0.1 + size}px`;
+    drop.style.width = `${0.1 + width}px`;
+    drop.style.height = `${0.1 + height}px`;
     drop.style.left = `${posX}px`;
     drop.style.animationDelay = `${delay}s`;
     drop.style.animationDuration = `${1 + duration}s`;

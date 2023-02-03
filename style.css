@@ -26,9 +26,9 @@ body {
 
 #rain-bg {
 	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
+	top: 0px;
+	left: -60px;
+	right: -60px;
 	bottom: 0;
 	transform: rotate(15deg);
 }
@@ -39,7 +39,6 @@ i.meteor {
 	background: linear-gradient(transparent, rgb(255 255 255 / 0.4));
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
-	transform: rotate(15deg);
 	animation: raining 5s linear Infinite;
 }
 @-moz-keyframes raining {

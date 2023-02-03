@@ -1,5 +1,7 @@
 # Another, but not your average, To-Do!
 
+DEMO: [See it in action first!](https://shams-shimul.github.io/todo-html-css-js/)
+
 ![image](https://user-images.githubusercontent.com/65963238/216475946-922d3c6e-1fd4-4dee-9584-72ec56e75a04.png)
 
 
@@ -17,5 +19,3 @@ Yes, you heard it right. Because this app does not just logs your to-do items in
  - Pleasing eyes with soothing meteor rain effects, beautiful gradients, and a few color shifting animations
 
 Coded purely in HTML, CSS, and JavaScript. Took me ages longer than what I initially expected, nonetheless I'm happy that finally I've been able to finish it.
-
-LIVE: [See it in action](https://shams-shimul.github.io/todo-html-css-js/)

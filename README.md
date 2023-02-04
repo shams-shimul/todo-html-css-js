@@ -1,9 +1,8 @@
-# Another, but not your average, To-Do!
+# Another, but not your average starter, To-Do!
 
 DEMO: [See it in action first!](https://shams-shimul.github.io/todo-html-css-js/)
 
-![image](https://user-images.githubusercontent.com/65963238/216475946-922d3c6e-1fd4-4dee-9584-72ec56e75a04.png)
-
+![to-do](https://user-images.githubusercontent.com/65963238/216786187-264b6fc4-7bac-4126-a77c-c82f0c5c007d.png)
 
 Yes, you heard it right. Because this app does not just logs your to-do items into the local storage of the browser, and deletes them when commanded, it does a lot more things including:
 
